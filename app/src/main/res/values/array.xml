@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="navOptions">
+    <string-array name="nav_options">
         <item>Caminos</item>
         <item>Paraderos</item>
         <item>Feed</item>

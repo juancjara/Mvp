@@ -4,6 +4,8 @@
     <string name="app_name">Mvp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="openDrawer">Drawer abierto</string>
-    <string name="closeDrawer">Drawer cerrado</string>
+    <string name="open_drawer">Drawer abierto</string>
+    <string name="close_drawer">Drawer cerrado</string>
+    <string name="title_activity_home">HomeActivity</string>
+
 </resources>
