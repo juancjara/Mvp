@@ -1,10 +1,12 @@
 package com.tryhard.mvp.app;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -122,13 +124,13 @@ public class BaseActivity extends ActionBarActivity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         // Get text from resources
-        mTitle = getResources().getStringArray(R.array.navOptions)[position];
-
-        Toast.makeText(this, mTitle, Toast.LENGTH_SHORT);
-
-        navList.setItemChecked(position, true);
+        mTitle = getResources().getStringArray(R.array.nav_options)[position];
+        Log.d("GGG", "GGGG");
+        //navList.setItemChecked(position, true);
         getSupportActionBar().setTitle(mTitle);
         drawerLayout.closeDrawer(navList);
+        Intent intent = new Intent(this, BusStopActivity.class);
+        startActivity(intent);
     }
 
     @Override
