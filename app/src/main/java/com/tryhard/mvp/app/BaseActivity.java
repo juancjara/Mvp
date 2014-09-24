@@ -2,12 +2,9 @@ package com.tryhard.mvp.app;
 
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
-public class MainActivity extends ActionBarActivity {
+/**
+ * Created by juancarlos on 23/09/14.
+ */
+public class BaseActivity extends ActionBarActivity {
     private CharSequence mTitle;
     private ListView navList;
     private DrawerLayout drawerLayout;
@@ -26,16 +25,16 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.base_layout);
 
         mTitle = getTitle();
 
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        this.navList = (ListView) findViewById(R.id.navDrawer);
+        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.navList = (ListView) findViewById(R.id.nav_drawer);
 
         // Load an array of options names
         final String[] names = getResources().getStringArray(
-                R.array.navOptions);
+                R.array.nav_options);
 
         // Set previous array as adapter of the list
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -45,8 +44,8 @@ public class MainActivity extends ActionBarActivity {
 
         //icono toggle
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.drawable.ic_launcher, R.string.openDrawer,
-                R.string.closeDrawer) {
+                R.drawable.ic_launcher, R.string.open_drawer,
+                R.string.close_drawer) {
 
             /**
              * Called when a drawer has settled in a completely closed state.
