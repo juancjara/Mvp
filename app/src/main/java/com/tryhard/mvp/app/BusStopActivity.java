@@ -18,7 +18,8 @@ public class BusStopActivity extends BaseActivity {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment).commit();
+            .replace(R.id.content_frame, fragment)
+            .commit();
     }
 
 

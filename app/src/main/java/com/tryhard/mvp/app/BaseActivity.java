@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * Created by juancarlos on 23/09/14.
@@ -125,8 +124,7 @@ public class BaseActivity extends ActionBarActivity {
     private void selectItem(int position) {
         // Get text from resources
         mTitle = getResources().getStringArray(R.array.nav_options)[position];
-        Log.d("GGG", "GGGG");
-        //navList.setItemChecked(position, true);
+        navList.setItemChecked(position, true);
         getSupportActionBar().setTitle(mTitle);
         drawerLayout.closeDrawer(navList);
         Intent intent = new Intent(this, BusStopActivity.class);
