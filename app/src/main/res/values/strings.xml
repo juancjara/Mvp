@@ -8,6 +8,7 @@
     <string name="close_drawer">Drawer cerrado</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_gg">GG</string>
+    <string name="title_route_grid_view">Seleccione una ruta</string>
     <string name="title_activity_bus_stop">BusStop</string>
 
 </resources>
