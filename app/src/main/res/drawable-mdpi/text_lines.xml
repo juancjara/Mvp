@@ -8,7 +8,7 @@
         <shape android:shape="rectangle" >
             <stroke
                     android:width="2dp"
-                    android:color="#2C3E50" />
+                    android:color="@color/bg_action_bar" />
 
             <solid android:color="#00FFFFFF" />
             <padding android:left="10dp"

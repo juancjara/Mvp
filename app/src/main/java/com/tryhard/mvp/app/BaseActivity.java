@@ -2,8 +2,11 @@ package com.tryhard.mvp.app;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 /**
  * Created by juancarlos on 23/09/14.
@@ -22,6 +26,8 @@ public class BaseActivity extends ActionBarActivity {
     private ListView navList;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private ActionBar actionBar;
+    private RelativeLayout navDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +35,13 @@ public class BaseActivity extends ActionBarActivity {
         setContentView(R.layout.base_layout);
 
         mTitle = getTitle();
+        actionBar = getSupportActionBar();
 
+        actionBar.setBackgroundDrawable(
+            new ColorDrawable(getResources().getColor(R.color.bg_action_bar)));
         this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        this.navList = (ListView) findViewById(R.id.nav_drawer);
+        this.navDrawer = (RelativeLayout)findViewById(R.id.nav_drawer);
+        this.navList = (ListView) findViewById(R.id.nav_list);
 
         // Load an array of options names
         final String[] names = getResources().getStringArray(
@@ -45,7 +55,7 @@ public class BaseActivity extends ActionBarActivity {
 
         //icono toggle
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.drawable.ic_drawer, R.string.open_drawer,
+                R.drawable.ic_drawer_white, R.string.open_drawer,
                 R.string.close_drawer) {
 
             /**
@@ -69,8 +79,8 @@ public class BaseActivity extends ActionBarActivity {
         // Set the drawer toggle as the DrawerListener
         drawerLayout.setDrawerListener(drawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -106,7 +116,7 @@ public class BaseActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content
         // view
-        boolean drawerOpen = drawerLayout.isDrawerOpen(navList);
+        boolean drawerOpen = drawerLayout.isDrawerOpen(navDrawer);
         menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -125,8 +135,8 @@ public class BaseActivity extends ActionBarActivity {
         // Get text from resources
         mTitle = getResources().getStringArray(R.array.nav_options)[position];
         navList.setItemChecked(position, true);
-        getSupportActionBar().setTitle(mTitle);
-        drawerLayout.closeDrawer(navList);
+        actionBar.setTitle(mTitle);
+        drawerLayout.closeDrawer(navDrawer);
         Intent intent = new Intent(this, BusStopActivity.class);
         startActivity(intent);
     }
