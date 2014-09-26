@@ -2,4 +2,5 @@
 <resources>
     <color name="nice_blue">#4A89DC</color>
     <color name="white">#FFFFFF</color>
+    <color name="bg_nav_drawer">#34495E</color>
 </resources>

@@ -18,7 +18,6 @@ import android.widget.Toast;
  */
 public class BusStopFragment extends Fragment{
     private GridView gridView;
-    String[] data = {"301", "303", "304", "305"};
 
     public BusStopFragment(){}
     @Override
@@ -28,13 +27,13 @@ public class BusStopFragment extends Fragment{
         gridView = (GridView) v.findViewById(R.id.route_grid_view);
 
         Context ctx = container.getContext();
-        gridView.setAdapter(new RouteItemAdapter(ctx, data));
+        gridView.setAdapter(new RouteItemAdapter(ctx, BusStopActivity.data));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Fragment newFragment = new RouteDetailFragment();
                 Bundle args = new Bundle();
-                args.putString(RouteDetailFragment.KEY_SEL, "" + position);
-                args.putString(RouteDetailFragment.TEXT, data[position]);
+                args.putString(RouteDetailFragment.TEXT, BusStopActivity.data[position].getName());
+                args.putInt(RouteDetailFragment.IMAGE, BusStopActivity.data[position].getImageId());
                 newFragment.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 

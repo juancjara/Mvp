@@ -39,13 +39,13 @@ public class BaseActivity extends ActionBarActivity {
 
         // Set previous array as adapter of the list
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, names);
+                R.layout.side_menu_item, names);
         navList.setAdapter(adapter);
         navList.setOnItemClickListener(new DrawerItemClickListener());
 
         //icono toggle
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.drawable.ic_launcher, R.string.open_drawer,
+                R.drawable.ic_drawer, R.string.open_drawer,
                 R.string.close_drawer) {
 
             /**
