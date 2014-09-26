@@ -12,9 +12,9 @@ import android.widget.TextView;
  */
 public class RouteItemAdapter extends BaseAdapter {
     private Context context;
-    private final String[] values;
+    private final BusStopInformation[] values;
 
-    public RouteItemAdapter(Context context, String[] values) {
+    public RouteItemAdapter(Context context, BusStopInformation[] values) {
         this.context = context;
         this.values = values;
     }
@@ -36,7 +36,7 @@ public class RouteItemAdapter extends BaseAdapter {
             // set value into textview
             TextView textView = (TextView) gridView
                     .findViewById(R.id.route_item_label);
-            textView.setText(values[position]);
+            textView.setText(values[position].getName());
         } else {
             gridView = (View) convertView;
         }

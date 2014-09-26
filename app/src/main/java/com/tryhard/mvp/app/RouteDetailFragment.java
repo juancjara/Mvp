@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class RouteDetailFragment extends Fragment{
     public final static String KEY_SEL = "key";
     public final static String TEXT = "text";
+    public final static String  IMAGE = "image";
     private String mText = "";
     private TouchImageView image;
 
@@ -23,15 +24,11 @@ public class RouteDetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        String position = getArguments().getString(KEY_SEL);
         mText = getArguments().getString(TEXT);
+        int imageId = getArguments().getInt(IMAGE);
         View v = inflater.inflate(R.layout.route_detail_fragment, container, false);
         TextView tv = (TextView) v.findViewById(R.id.route_detail_textV);
         image = (TouchImageView) v.findViewById(R.id.route_detail_touchImageV);
-        int imageId = R.drawable.m_301;
-        if (Integer.parseInt(position) > 0) {
-            imageId = R.drawable.map2;
-        }
         image.setImageResource(imageId);
         tv.setText(mText);
 
