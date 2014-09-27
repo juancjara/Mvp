@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.R;
+import com.tryhard.mvp.app.structs.BusStop;
+import com.tryhard.mvp.app.structs.Path;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class MapFragment extends Fragment {
     private BusStopListener toListener;
     private RouteManager routeManager;
     public MapFragment() {}
+    ResourceManager.ResultListener<List<Path>> resultListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -39,7 +43,45 @@ public class MapFragment extends Fragment {
         fromListener = new BusStopListener();
         toListener = new BusStopListener();
         routeManager = new RouteManager((MapView)v.findViewById(R.id.map_fragment_map_view));
+        resultListener =  new ResourceManager.ResultListener<List<Path>>() {
+            @Override
+            public void callback(boolean error, List<Path> resource) {
+                if (error) {
+                    Toast.makeText(getActivity(),
+                            "Ruta no encontrada",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    final RouteResult routeResult = new RouteResult();
+                    routeResult.pathList = resource;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            routeManager.drawResult(routeResult);
+                        }
+                    });
+                }
+            }
+        };
+
         routeManager.centerMap();
+
+        Button search = (Button)v.findViewById(R.id.map_fragment_search_button);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!fromListener.validSelection() ||
+                    !toListener.validSelection()) {
+                    Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
+                    return;
+                }
+                ResourceManager.getInstance().getPath(
+                        fromListener.selection.id,
+                        toListener.selection.id,
+                        resultListener
+                );
+            }
+        });
         setAutoCompleteAdapter(fromAutoComplete, fromListener);
         setAutoCompleteAdapter(toAutoComplete, toListener);
         return v;
@@ -55,16 +97,28 @@ public class MapFragment extends Fragment {
         view.addTextChangedListener(busStopListener);
     }
 
-    final class BusStopAutoCompleteAdapter extends ArrayAdapter<String> {
+    final class BusStopAutoCompleteAdapter extends ArrayAdapter<BusStop> {
 
-        private List<String> results = new ArrayList<String>();
-
+        private List<BusStop> results = new ArrayList<BusStop>();
+        private LayoutInflater inflater;
         public BusStopAutoCompleteAdapter(Context context, int resource) {
             super(context, resource);
+            inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public String getItem(int position) {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            if (convertView == null) {
+                view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            }
+            TextView textView = (TextView) view;
+            textView.setText(getItem(position).title);
+            return textView;
+        }
+
+        @Override
+        public BusStop getItem(int position) {
             return results.get(position);
         }
 
@@ -102,15 +156,22 @@ public class MapFragment extends Fragment {
 
     final class BusStopListener implements AdapterView.OnItemClickListener, TextWatcher {
 
+        public BusStop selection;
+
+        void clearSelection() {
+            selection = null;
+        }
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String selected = (String)parent.getItemAtPosition(position);
-            Toast.makeText(view.getContext(), selected, Toast.LENGTH_SHORT).show();
+            BusStop selected = (BusStop)parent.getItemAtPosition(position);
+            selection = selected;
+            Toast.makeText(view.getContext(), selected.title, Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            clearSelection();
         }
 
         @Override
@@ -118,6 +179,10 @@ public class MapFragment extends Fragment {
 
         @Override
         public void afterTextChanged(Editable s) {}
+
+        public boolean validSelection() {
+            return selection != null;
+        }
     }
 
 }

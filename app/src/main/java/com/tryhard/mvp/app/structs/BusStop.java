@@ -13,4 +13,9 @@ public class BusStop {
         this.id = id;
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

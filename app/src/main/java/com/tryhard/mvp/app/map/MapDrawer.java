@@ -13,10 +13,8 @@ import java.util.List;
  */
 public class MapDrawer {
     MapView view;
-    OverlayManager overlayManager;
     public MapDrawer(MapView view) {
         this.view = view;
-        this.overlayManager = view.getOverlayManager();
     }
 
     public void drawMarker(Marker marker) {
@@ -28,11 +26,11 @@ public class MapDrawer {
     }
 
     public void drawOverlay(Overlay path) {
-        overlayManager.add(path);
+        view.getOverlays().add(path);
     }
 
     public void removeOverlay(Overlay path) {
-       overlayManager.remove(path);
+       view.getOverlays().remove(path);
     }
 
     public void refresh() {

@@ -1,7 +1,9 @@
 package com.tryhard.mvp.app.map;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.tryhard.mvp.app.structs.Path;
 
 import java.util.HashMap;
 
@@ -17,6 +19,10 @@ public class RouteManager {
 
     void drawResult(RouteResult value) {
         clearPrev();
+        for (Path path: value.pathList) {
+            drawer.drawOverlay(path.getPathOverlay());
+        }
+        drawer.refresh();
         prev = value;
     }
 

@@ -92,38 +92,44 @@ public class ResourceManager {
         }
     }
 
-    public void getPath(int from, int to, ResultListener<List<PathOverlay>> listener) {
-        List<Path> ans = new ArrayList<Path>();
-        boolean found = false;
-        while (pathMap.containsKey((Integer)from)) {
-            Path path = pathMap.get((Integer)from);
-            int next = path.toId;
-            from = next;
-            ans.add(path);
-            if (next == to) {
-                found = true;
-                break;
+    public void getPath(final int from, final int to, final ResultListener<List<Path>> listener) {
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                List<Path> ans = new ArrayList<Path>();
+                boolean found = false;
+                int it = from;
+                while (pathMap.containsKey((Integer)it)) {
+                    Path path = pathMap.get((Integer)it);
+                    int next = path.toId;
+                    it = next;
+                    ans.add(path);
+                    if (it == to) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    List<Path> ansPath= new ArrayList<Path>();
+                    for (Path p: ans) {
+                        ansPath.add(p);
+                        System.out.println(busStopMap.get(p.fromId).title);
+                    }
+                    listener.callback(false, ansPath);
+                    return;
+                }
+                listener.callback(false, new ArrayList<Path>());
             }
-        }
-        if (found) {
-            List<PathOverlay> ansPath= new ArrayList<PathOverlay>();
-            for (Path p: ans) {
-                System.out.print(p.fromId + " ");
-                PathOverlay pathOverlay = new PathOverlay();
-                pathOverlay.addPoints(p.getPoints());
-                ansPath.add(pathOverlay);
-            }
-            System.out.println();
-            listener.callback(false, ansPath);
-        }
-        listener.callback(false, new ArrayList<PathOverlay>());
+        };
+        Thread t = new Thread(run);
+        t.start();
     }
 
-    public List<String> getBusStopMatches(String value) {
-        List<String> ans = new ArrayList<String>();
+    public List<BusStop> getBusStopMatches(String value) {
+        List<BusStop> ans = new ArrayList<BusStop>();
         for (BusStop bs : busStopMap.values()) {
             if (bs.title.indexOf(value) != -1) {
-                ans.add(bs.title);
+                ans.add(bs);
             }
         }
         return ans;

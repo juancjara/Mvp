@@ -31,7 +31,7 @@ public class Path {
     }
 
     public PathOverlay getPathOverlay() {
-        if (overlay != null) {
+        if (overlay == null) {
             overlay = new PathOverlay();
             overlay.addPoints(points);
         }
