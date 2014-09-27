@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 1
         versionName "1.0"
     }
@@ -32,9 +32,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // You must install or update the Support Repository through the SDK manager to use this dependency.
-    // You must install or update the Support Repository through the SDK manager to use this dependency.
-    // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.android.support:appcompat-v7:19.+'
+    compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.4.0@aar'){
+        transitive=true
+    }
 }

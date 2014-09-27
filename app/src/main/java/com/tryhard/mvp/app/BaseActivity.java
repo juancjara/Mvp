@@ -137,7 +137,8 @@ public class BaseActivity extends ActionBarActivity {
         navList.setItemChecked(position, true);
         actionBar.setTitle(mTitle);
         drawerLayout.closeDrawer(navDrawer);
-        Intent intent = new Intent(this, BusStopActivity.class);
+        // por el team
+        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 
