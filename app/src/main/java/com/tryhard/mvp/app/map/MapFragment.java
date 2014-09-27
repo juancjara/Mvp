@@ -1,4 +1,4 @@
-package com.tryhard.mvp.app;
+package com.tryhard.mvp.app.map;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.mapbox.mapboxsdk.views.MapView;
+import com.tryhard.mvp.app.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by andreq on 9/26/14.
@@ -20,7 +23,7 @@ public class MapFragment extends Fragment {
 
     private BusStopListener fromListener;
     private BusStopListener toListener;
-
+    private RouteManager routeManager;
     public MapFragment() {}
 
     @Override
@@ -35,6 +38,8 @@ public class MapFragment extends Fragment {
 
         fromListener = new BusStopListener();
         toListener = new BusStopListener();
+        routeManager = new RouteManager((MapView)v.findViewById(R.id.map_fragment_map_view));
+        routeManager.centerMap();
         setAutoCompleteAdapter(fromAutoComplete, fromListener);
         setAutoCompleteAdapter(toAutoComplete, toListener);
         return v;
@@ -52,7 +57,7 @@ public class MapFragment extends Fragment {
 
     final class BusStopAutoCompleteAdapter extends ArrayAdapter<String> {
 
-        private ArrayList<String> results = new ArrayList<String>();
+        private List<String> results = new ArrayList<String>();
 
         public BusStopAutoCompleteAdapter(Context context, int resource) {
             super(context, resource);
@@ -75,10 +80,7 @@ public class MapFragment extends Fragment {
                 protected FilterResults performFiltering(CharSequence constraint) {
                     FilterResults filterResults = new FilterResults();
                     if (constraint != null) {
-                        results.clear();
-                        for (int i = 0; i < 10; i++) {
-                             results.add(constraint + " " + i);
-                        }
+                        results = ResourceManager.getInstance().getBusStopMatches(constraint.toString());
                         filterResults.values = results;
                         filterResults.count = results.size();
                     }
