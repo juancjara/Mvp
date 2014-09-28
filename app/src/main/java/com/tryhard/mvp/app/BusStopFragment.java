@@ -32,7 +32,9 @@ public class BusStopFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Fragment newFragment = new RouteDetailFragment();
                 Bundle args = new Bundle();
-                args.putString(RouteDetailFragment.TEXT, BusStopActivity.data[position].getName());
+                String name = BusStopActivity.data[position].getName();
+                getActivity().setTitle(name);
+                args.putString(RouteDetailFragment.TEXT, name);
                 args.putInt(RouteDetailFragment.IMAGE, BusStopActivity.data[position].getImageId());
                 newFragment.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

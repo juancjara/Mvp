@@ -27,10 +27,10 @@ public class RouteDetailFragment extends Fragment{
         mText = getArguments().getString(TEXT);
         int imageId = getArguments().getInt(IMAGE);
         View v = inflater.inflate(R.layout.route_detail_fragment, container, false);
-        TextView tv = (TextView) v.findViewById(R.id.route_detail_textV);
+        //TextView tv = (TextView) v.findViewById(R.id.route_detail_textV);
         image = (TouchImageView) v.findViewById(R.id.route_detail_touchImageV);
         image.setImageResource(imageId);
-        tv.setText(mText);
+        //tv.setText(mText);
 
         return v;
     }
