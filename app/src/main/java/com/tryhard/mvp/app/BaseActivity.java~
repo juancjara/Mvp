@@ -54,5 +54,25 @@ public class BaseActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * Called whenever we call invalidateOptionsMenu()
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content
+        // view
+        boolean drawerOpen = drawerLayout.isDrawerOpen(navDrawer);
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private class DrawerItemClickListener implements
+            ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            selectItem(position);
+        }
+    }
 
 }

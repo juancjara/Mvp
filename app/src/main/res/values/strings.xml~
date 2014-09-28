@@ -7,8 +7,11 @@
     <string name="open_drawer">Drawer abierto</string>
     <string name="close_drawer">Drawer cerrado</string>
     <string name="title_route_grid_view">Seleccione una ruta</string>
+<<<<<<< HEAD
     <string name="title_activity_bus_stop">Paraderos</string>
     <string name="title_activity_base_layout">ActivityLayout</string>
+=======
+    <string name="title_activity_bus_stop">BusStop</string>
     <string name="title_activity_map">Map</string>
 
     <!-- map strings -->
@@ -17,5 +20,6 @@
     <string name="map_fragment_to_label">A</string>
     <string name="map_fragment_search_button_label">Buscar</string>
 
+>>>>>>> 4708273ac25a5fd5bd7831b5166e87987cd0f453
 
 </resources>

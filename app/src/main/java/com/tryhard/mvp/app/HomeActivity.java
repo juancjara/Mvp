@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import com.tryhard.mvp.app.map.MapActivity;
 
 /**
  * Created by juancarlos on 23/09/14.
@@ -143,7 +144,10 @@ public class HomeActivity extends ActionBarActivity {
         navList.setItemChecked(position, true);
         actionBar.setTitle(mTitle);
         drawerLayout.closeDrawer(navDrawer);
-        Intent intent = new Intent(this, BusStopActivity.class);
+        Intent intent = new Intent(this, MapActivity.class);
+        if (position == 1) {
+            intent = new Intent(this,BusStopActivity.class);
+        }
         startActivity(intent);
     }
     @Override
