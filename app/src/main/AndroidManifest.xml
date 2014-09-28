@@ -25,7 +25,7 @@
                 android:label="@string/title_activity_bus_stop" >
         </activity>
         <activity
-                android:name=".MapActivity"
+                android:name=".map.MapActivity"
                 android:label="@string/title_activity_map" >
         </activity>
     </application>
