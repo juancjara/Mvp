@@ -1,4 +1,4 @@
-package com.tryhard.mvp.app;
+package com.tryhard.mvp.app.route;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.tryhard.mvp.app.R;
+import com.tryhard.mvp.app.route.BusStopInformation;
 
 /**
  * Created by juancarlos on 24/09/14.

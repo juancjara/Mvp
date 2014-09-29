@@ -20,12 +20,12 @@ import com.tryhard.mvp.app.map.MapActivity;
 
 
 public class BaseActivity extends ActionBarActivity {
-
+    ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
 
         actionBar.setBackgroundDrawable(
                 new ColorDrawable(getResources().getColor(R.color.bg_action_bar)));
@@ -54,5 +54,8 @@ public class BaseActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void setActionBarName(String text) {
+        setActionBarName(text);
+    }
 
 }

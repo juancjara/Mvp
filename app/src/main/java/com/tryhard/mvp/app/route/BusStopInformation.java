@@ -1,4 +1,4 @@
-package com.tryhard.mvp.app;
+package com.tryhard.mvp.app.route;
 
 /**
  * Created by juancarlos on 25/09/14.
