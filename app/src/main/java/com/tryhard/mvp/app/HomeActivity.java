@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.tryhard.mvp.app.map.MapActivity;
+import com.tryhard.mvp.app.route.BusStopActivity;
 
 /**
  * Created by juancarlos on 23/09/14.

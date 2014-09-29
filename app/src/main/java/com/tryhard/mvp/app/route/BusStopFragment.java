@@ -1,4 +1,4 @@
-package com.tryhard.mvp.app;
+package com.tryhard.mvp.app.route;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
+import com.tryhard.mvp.app.R;
 
 /**
  * Created by juancarlos on 23/09/14.
@@ -27,15 +27,19 @@ public class BusStopFragment extends Fragment{
         gridView = (GridView) v.findViewById(R.id.route_grid_view);
 
         Context ctx = container.getContext();
-        gridView.setAdapter(new RouteItemAdapter(ctx, BusStopActivity.data));
+        gridView.setAdapter(new RouteItemAdapter(ctx, RouteDataHolder.getInstance().getBusStopList()));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                RouteDataHolder dataHolder = RouteDataHolder.getInstance();
+                BusStopInformation info = dataHolder.getBusStopInfo(position);
+
+                String name = info.getName();
                 Fragment newFragment = new RouteDetailFragment();
                 Bundle args = new Bundle();
-                String name = BusStopActivity.data[position].getName();
+
+                dataHolder.setBusStopSelected(position);
                 getActivity().setTitle(name);
                 args.putString(RouteDetailFragment.TEXT, name);
-                args.putInt(RouteDetailFragment.IMAGE, BusStopActivity.data[position].getImageId());
                 newFragment.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 

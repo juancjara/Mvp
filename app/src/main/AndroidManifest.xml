@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tryhard.mvp.app.BusStopActivity"
+            android:name=".route.BusStopActivity"
             android:label="@string/title_activity_bus_stop"
             android:parentActivityName=".HomeActivity">
         </activity>
