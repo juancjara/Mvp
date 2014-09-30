@@ -20,8 +20,8 @@ public class RouteDataHolder {
     BusStopInformation[] busStopsData;
     private RouteDataHolder() {
         busStopsData = new BusStopInformation[3];
-        busStopsData[0] = new BusStopInformation("301", R.drawable.simple_map_301_vertical);
-        busStopsData[1] = new BusStopInformation("302", R.drawable.simple_map_301_vertical);
+        busStopsData[0] = new BusStopInformation("301", R.drawable.m_301_v2);
+        busStopsData[1] = new BusStopInformation("302", R.drawable.m_302_v2);
         busStopsData[2] = new BusStopInformation("303", R.drawable.simple_map_303_vertical);
     }
     public BusStopInformation[] getBusStopList(){
