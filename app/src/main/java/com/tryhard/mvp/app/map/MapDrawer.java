@@ -13,8 +13,13 @@ import java.util.List;
  */
 public class MapDrawer {
     MapView view;
+
     public MapDrawer(MapView view) {
         this.view = view;
+    }
+
+    public MapView getMapView() {
+        return view;
     }
 
     public void drawMarker(Marker marker) {

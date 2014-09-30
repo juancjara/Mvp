@@ -1,5 +1,7 @@
 package com.tryhard.mvp.app.map;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import com.cocoahero.android.geojson.Feature;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.cocoahero.android.geojson.Geometry;
@@ -16,10 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by andreq on 9/20/14.
@@ -27,12 +26,15 @@ import java.util.StringTokenizer;
 public class ResourceManager {
     HashMap<Integer, BusStop> busStopMap = new HashMap<Integer, BusStop>();
     HashMap<Integer, Path> pathMap = new HashMap<Integer, Path>();
-
+    Handler handler;
+    boolean loaded = false;
     static ResourceManager instance;
     static String GIST_URL =
      "https://gist.githubusercontent.com/andreqi/02440611d23020fa8bba/raw/3f2451d45fdd4e547ca2e865f6c664e0c31f5f4b/sit";
     private ResourceManager() {
-        load();
+        HandlerThread thread = new HandlerThread("ResourceManager");
+        thread.start();
+        handler = new Handler(thread.getLooper());
     }
 
     static ResourceManager getInstance() {
@@ -58,7 +60,20 @@ public class ResourceManager {
         void callback(boolean error, T resource);
     }
 
+    public void getBusStops(final ResultListener<Collection<BusStop>> callback) {
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                load();
+                callback.callback(false, busStopMap.values());
+            }
+        };
+        handler.post(run);
+    }
+
     public void load() {
+        if (loaded) return;
+        loaded = true;
         try {
             FeatureCollection features = DataLoadingUtils.loadGeoJSONFromUrl(GIST_URL);
             for (Feature f : features.getFeatures()) {
@@ -96,6 +111,7 @@ public class ResourceManager {
         Runnable run = new Runnable() {
             @Override
             public void run() {
+                load();
                 List<Path> ans = new ArrayList<Path>();
                 boolean found = false;
                 int it = from;
@@ -121,11 +137,11 @@ public class ResourceManager {
                 listener.callback(false, new ArrayList<Path>());
             }
         };
-        Thread t = new Thread(run);
-        t.start();
+        handler.post(run);
     }
 
     public List<BusStop> getBusStopMatches(String value) {
+        load();
         List<BusStop> ans = new ArrayList<BusStop>();
         for (BusStop bs : busStopMap.values()) {
             if (bs.title.indexOf(value) != -1) {
