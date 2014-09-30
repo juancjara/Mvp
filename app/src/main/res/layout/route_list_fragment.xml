@@ -4,14 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
     <TextView
         android:id="@+id/title_route_grid_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:text="@string/title_route_grid_view"/>
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,10 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:layout_marginTop="10dp"
         android:stretchMode="columnWidth"
-        android:numColumns="auto_fit"
+        android:numColumns="1"
         android:gravity="center"/>
 </LinearLayout>
 

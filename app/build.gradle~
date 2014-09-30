@@ -17,7 +17,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 9
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
@@ -32,6 +32,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+<<<<<<< HEAD
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+=======
+>>>>>>> 4708273ac25a5fd5bd7831b5166e87987cd0f453
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.android.support:appcompat-v7:19.+'
     compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.4.0@aar'){

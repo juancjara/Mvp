@@ -9,6 +9,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text=""
             android:id="@+id/textView"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true" android:src="@drawable/logo_corredor_azul"/>
 </LinearLayout>
