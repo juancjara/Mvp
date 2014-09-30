@@ -4,8 +4,11 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,27 +26,33 @@ public class RouteDetailFragment extends Fragment implements ActionBar.TabListen
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
+    private TouchImageView image;
 
     public RouteDetailFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mText = getArguments().getString(TEXT);
+        View v = inflater.inflate(R.layout.route_simple_map_fragment, container, false);
 
-        View v = inflater.inflate(R.layout.route_detail_fragment, container, false);
+        BusStopInformation data = RouteDataHolder.getInstance().getSelectedBusStopInfo();
+        image = (TouchImageView) v.findViewById(R.id.simple_map_touch_view);
+        image.setImageResource(data.getImageId());
 
-
+        String title = getString(R.string.title_activity_bus_stop) + " : " + data.getName();
+        getActivity().setTitle(title);
+/*
         viewPager = (ViewPager) v.findViewById(R.id.view_pager);
         mAdapter = new TabsPagerAdapter(getFragmentManager());
         viewPager.setAdapter(mAdapter);
         actionBar = getActivity().getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            /**
-             * on swipe select the respective tab
-             * */
+
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
@@ -57,8 +66,9 @@ public class RouteDetailFragment extends Fragment implements ActionBar.TabListen
         });
 
         //Add New Tab
+        actionBar.removeAllTabs();
         actionBar.addTab(actionBar.newTab().setText("Mapa").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Horario").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Horario").setTabListener(this));*/
         return v;
     }
 

@@ -5,12 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="100dp"
+    android:padding="10dp"
     android:background="@color/nice_blue">
     <TextView
         android:id="@+id/route_item_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="22dp"
         android:textColor="@color/white"
-        android:layout_margin="5px"/>
+        android:layout_marginLeft="5px"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/route_item_image_view"
+        android:scaleType="center"/>
 </LinearLayout>

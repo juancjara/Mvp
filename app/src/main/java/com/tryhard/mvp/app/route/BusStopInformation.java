@@ -13,7 +13,6 @@ public class BusStopInformation {
     }
 
     private int imageId;
-
     public String getName() {
         return name;
     }

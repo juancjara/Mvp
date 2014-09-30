@@ -1,10 +1,12 @@
 package com.tryhard.mvp.app.route;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.route.BusStopInformation;
@@ -39,6 +41,9 @@ public class RouteItemAdapter extends BaseAdapter {
             TextView textView = (TextView) gridView
                     .findViewById(R.id.route_item_label);
             textView.setText(values[position].getName());
+            ImageView imageView = (ImageView) gridView
+                    .findViewById(R.id.route_item_image_view);
+            imageView.setImageResource(values[position].getImageId());
         } else {
             gridView = (View) convertView;
         }
