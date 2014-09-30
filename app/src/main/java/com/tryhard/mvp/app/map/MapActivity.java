@@ -1,6 +1,6 @@
 package com.tryhard.mvp.app.map;
 
-import android.os.Bundle;
+import android.os.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import com.tryhard.mvp.app.BaseActivity;
