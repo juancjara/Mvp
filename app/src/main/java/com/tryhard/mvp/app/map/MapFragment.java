@@ -1,5 +1,6 @@
 package com.tryhard.mvp.app.map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,8 +33,19 @@ public class MapFragment extends Fragment {
     private BusStopListener fromListener;
     private BusStopListener toListener;
     private RouteManager routeManager;
+    private RouteSearchListener routeSearchListener;
     public MapFragment() {}
-    ResourceManager.ResultListener<List<Path>> resultCallback;
+    ResourceManager.ResultListener<List<ResourceManager.Route>> resultCallback;
+
+    interface RouteSearchListener {
+        void onSearchDisplayRequest(List<ResourceManager.Route> routes);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        routeSearchListener = (MapActivity) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -80,21 +92,19 @@ public class MapFragment extends Fragment {
             }
         });
 
-        resultCallback = new ResourceManager.ResultListener<List<Path>>() {
+        resultCallback = new ResourceManager.ResultListener<List<ResourceManager.Route>>() {
             @Override
-            public void callback(boolean error, List<Path> resource) {
+            public void callback(boolean error, final List<ResourceManager.Route> resource) {
                 if (error) {
                     Toast.makeText(getActivity(),
                             "Ruta no encontrada",
                             Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    final RouteResult routeResult = new RouteResult();
-                    routeResult.pathList = resource;
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            routeManager.drawResult(routeResult);
+                            routeSearchListener.onSearchDisplayRequest(resource);
                         }
                     });
                 }
@@ -103,7 +113,21 @@ public class MapFragment extends Fragment {
 
         routeManager.centerMap();
         Button search = (Button)v.findViewById(R.id.map_fragment_search_button);
-        search.setOnClickListener(new SearchPathListener());
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                if (!fromListener.validSelection() ||
+                    !toListener.validSelection()) {
+                    Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
+                    return;
+                }
+                ResourceManager.getInstance().getPath(
+                        fromListener.selection.id,
+                        toListener.selection.id,
+                        resultCallback
+                );
+            }
+        });
         setAutoCompleteAdapter(fromAutoComplete, fromListener);
         setAutoCompleteAdapter(toAutoComplete, toListener);
         return v;
@@ -204,12 +228,14 @@ public class MapFragment extends Fragment {
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            clearSelection();
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (validSelection() && s.toString().compareTo(selection.title) != 0) {
+                clearSelection();
+            }
+        }
 
         @Override
         public void afterTextChanged(Editable s) {}
@@ -223,20 +249,6 @@ public class MapFragment extends Fragment {
         }
     }
 
-    final class SearchPathListener implements  View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            if (!fromListener.validSelection() ||
-                !toListener.validSelection()) {
-                Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
-                return;
-            }
-            ResourceManager.getInstance().getPath(
-                    fromListener.selection.id,
-                    toListener.selection.id,
-                    resultCallback
-            );
-        }
-    }
+
 
 }

@@ -147,13 +147,9 @@ public class HomeActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(navDrawer);
         Intent intent = new Intent(this, MapActivity.class);
         if (position == 1) {
-            intent = new Intent(this,BusStopActivity.class);
+            intent = new Intent(this, BusStopActivity.class);
         }
         startActivity(intent);
-    }
-    @Override
-    public void onBackPressed() {
-
     }
 
     @Override
