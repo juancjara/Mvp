@@ -107,34 +107,28 @@ public class ResourceManager {
         }
     }
 
-    public void getPath(final int from, final int to, final ResultListener<List<Path>> listener) {
+    public class Route {
+        public int routeId;
+        public List<Path> paths;
+    }
+
+    public void getPath(final int from, final int to, final ResultListener<List<Route>> listener) {
         Runnable run = new Runnable() {
             @Override
             public void run() {
                 load();
-                List<Path> ans = new ArrayList<Path>();
-                boolean found = false;
-                int it = from;
-                while (pathMap.containsKey((Integer)it)) {
-                    Path path = pathMap.get((Integer)it);
-                    int next = path.toId;
-                    it = next;
-                    ans.add(path);
-                    if (it == to) {
-                        found = true;
-                        break;
+                // mock algorithm
+                List<Route> route = new ArrayList<Route>();
+                for (int i = 0; i < 3; i++) {
+                    Route res = new Route();
+                    res.routeId = 301 + i;
+                    res.paths = new ArrayList<Path>();
+                    for (int j = 0; j < 3; j++) {
+                        res.paths.add(pathMap.get(j + i * 3));
                     }
+                    route.add(res);
                 }
-                if (found) {
-                    List<Path> ansPath= new ArrayList<Path>();
-                    for (Path p: ans) {
-                        ansPath.add(p);
-                        System.out.println(busStopMap.get(p.fromId).title);
-                    }
-                    listener.callback(false, ansPath);
-                    return;
-                }
-                listener.callback(false, new ArrayList<Path>());
+                listener.callback(false, route);
             }
         };
         handler.post(run);
