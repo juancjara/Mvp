@@ -1,5 +1,6 @@
 package com.tryhard.mvp.app.map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.R;
+import com.tryhard.mvp.app.structs.BusStop;
 
 import java.util.List;
 
@@ -22,9 +24,20 @@ import java.util.List;
  */
 public class RouteListFragment extends Fragment {
     static String ROUTES_FIELD = "ROUTES";
-    List<ResourceManager.Route> routes;
+    private List<ResourceManager.Route> routes;
+    private ItemClickListener itemClickListener;
+
+    public interface ItemClickListener {
+        public void onItemFullScreenClick(ResourceManager.Route route);
+    }
 
     public RouteListFragment() {}
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        itemClickListener = (MapActivity)activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +60,8 @@ public class RouteListFragment extends Fragment {
         return v;
     }
 
-    static class MapRouteListAdapter extends ArrayAdapter<ResourceManager.Route> {
+
+    class MapRouteListAdapter extends ArrayAdapter<ResourceManager.Route> {
         private List<ResourceManager.Route> routes;
         private int resource;
         private LayoutInflater inflater;
@@ -78,7 +92,7 @@ public class RouteListFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ResourceManager.Route route = getItem(position);
+            final ResourceManager.Route route = getItem(position);
             View routeView = convertView;
             if (convertView == null) {
                 routeView = inflater.inflate(this.resource, parent, false);
@@ -92,23 +106,17 @@ public class RouteListFragment extends Fragment {
             TextView nextBusLabel = (TextView)routeView.findViewById(R.id.next_bus_item_label);
             TextView walkTimeLabel = (TextView)routeView.findViewById(R.id.walk_time_item_label);
             TextView busTimeLabel = (TextView)routeView.findViewById(R.id.bus_time_item_label);
+            Button goFullScreen = (Button)routeView.findViewById(R.id.map_item_fullscreen);
 
             nextBusLabel.setText("5:00pm");
             walkTimeLabel.setText("10m");
             busTimeLabel.setText("2h 20m");
-
-
-            /*
-            ImageView mapView = (ImageView)routeView.findViewById(R.id.map_item_img_view);
-            Bitmap tempBitmap = Bitmap.createBitmap(
-                    mapCacheView.getMeasuredWidth(),
-                    mapCacheView.getMeasuredHeight(),
-                    Bitmap.Config.RGB_565);
-            Canvas tempCanvas = new Canvas(tempBitmap);
-
-            mapCacheView.draw(tempCanvas);
-            mapView.setImageDrawable(new BitmapDrawable(res, tempBitmap));
-            */
+            goFullScreen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onItemFullScreenClick(route);
+                }
+            });
             return routeView;
         }
     }

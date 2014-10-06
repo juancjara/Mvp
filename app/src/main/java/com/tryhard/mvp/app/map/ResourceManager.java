@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -107,7 +108,7 @@ public class ResourceManager {
         }
     }
 
-    public class Route {
+    public class Route implements Serializable {
         public int routeId;
         public List<Path> paths;
     }
