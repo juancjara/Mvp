@@ -1,5 +1,7 @@
 package com.tryhard.mvp.app.map;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay;
@@ -33,9 +35,7 @@ public class RouteManager {
     public void drawBusStops(Collection<BusStop> busStops) {
         List<Marker> busStopMarkers = new ArrayList<Marker>();
         for (BusStop busStop: busStops) {
-            Coordinates coord = busStop.coord;
-            LatLng latLng = new LatLng(coord.latitude, coord.longitude);
-            Marker marker = new Marker(busStop.title, "", latLng);
+            Marker marker = getBusStopMarker(busStop);
             drawer.drawMarker(marker);
             markerToBusStop.put(marker, busStop);
             busStopMarkers.add(marker);
@@ -71,22 +71,48 @@ public class RouteManager {
         busStopTapListener = listener;
     }
 
-    public void drawResult(RouteResult value) {
-        clearPrev();
-        for (Path path: value.pathList) {
-            drawer.drawOverlay(path.getPathOverlay());
-        }
-        drawer.refresh();
-        prev = value;
+    private Marker getBusStopMarker(BusStop busStop) {
+        Coordinates coord = busStop.coord;
+        LatLng latLng = new LatLng(coord.latitude, coord.longitude);
+        return new Marker(busStop.title, "", latLng);
     }
 
-    private void clearPrev() {
+    public void drawBusStop(BusStop busStop) {
+        Marker marker = getBusStopMarker(busStop);
+        drawer.drawMarker(marker);
+    }
 
+    public void drawWalkPath(Path walk) {
+        PathOverlay overlay = walk.getPathOverlay();
+        Paint paint = overlay.getPaint();
+        paint.setColor(Color.GREEN);
+        paint.setStrokeWidth(12);
+        drawer.drawOverlay(overlay);
+    }
+
+    public void drawBusPath(Path bus) {
+        PathOverlay overlay = bus.getPathOverlay();
+        Paint paint = overlay.getPaint();
+        paint.setColor(Color.YELLOW);
+        paint.setStrokeWidth(12);
+        drawer.drawOverlay(overlay);
     }
 
     public void centerMap() {
         drawer.setCenter(new LatLng(-12.075, -77.067));
         drawer.setZoom(13);
+    }
+
+    public void drawRoute(ResourceManager.Route route) {
+        drawBusStop(route.from);
+        drawBusStop(route.to);
+        for (Path busPath: route.paths) {
+            drawBusPath(busPath);
+        }
+        for (Path walkPath: route.walks) {
+            drawWalkPath(walkPath);
+        }
+        drawer.refresh();
     }
 
     interface BusStopTapListener {

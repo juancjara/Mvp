@@ -108,28 +108,82 @@ public class ResourceManager {
         }
     }
 
-    public class Route implements Serializable {
-        public int routeId;
-        public List<Path> paths;
+    public class RoutePayback implements Serializable {
+        public BusStop from;
+        public BusStop to;
+        public String orientation;
+        public List<Route> routes;
     }
 
-    public void getPath(final int from, final int to, final ResultListener<List<Route>> listener) {
+    public class Route implements Serializable {
+        public int routeId;
+        public long busTime;
+        public long walkTime;
+        public Date nextBus;
+        public BusStop from;
+        public BusStop to;
+        public List<Path> walks;
+        public List<Path> paths;
+
+        private String minutesToString(long minutes) {
+            long hours = minutes / 60;
+            minutes %= 60;
+            String ans = "";
+            if (hours > 0) {
+                ans = hours + "h";
+            }
+            if (minutes > 0) {
+                if (!ans.isEmpty())
+                    ans += " ";
+                ans += minutes + "m";
+            }
+            if (ans.isEmpty()) {
+                ans = "0m";
+            }
+            return ans;
+        }
+
+        public String getWalkTimeStr() {
+            return minutesToString(walkTime);
+        }
+
+        public String getBusTimeStr() {
+            return minutesToString(busTime);
+        }
+    }
+
+    public void getPath(final BusStop from, final BusStop to, final ResultListener<RoutePayback> listener) {
         Runnable run = new Runnable() {
             @Override
             public void run() {
                 load();
                 // mock algorithm
+                RoutePayback payback = new RoutePayback();
+                payback.orientation = "A Miraflores";
+                payback.from = from;
+                payback.to = from;
                 List<Route> route = new ArrayList<Route>();
                 for (int i = 0; i < 3; i++) {
                     Route res = new Route();
                     res.routeId = 301 + i;
+                    res.busTime = 60 * i + 10;
+                    res.walkTime = 10 + i;
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new Date());
+                    calendar.add(Calendar.HOUR, i);
+                    res.nextBus = calendar.getTime();
                     res.paths = new ArrayList<Path>();
+                    res.from = from;
+                    res.to = to;
+                    res.walks = new ArrayList<Path>();
+                    res.walks.add(pathMap.get(30));
                     for (int j = 0; j < 3; j++) {
-                        res.paths.add(pathMap.get(j + i * 3));
+                        res.paths.add(pathMap.get(10 + j + i * 3));
                     }
                     route.add(res);
                 }
-                listener.callback(false, route);
+                payback.routes = route;
+                listener.callback(false, payback);
             }
         };
         handler.post(run);

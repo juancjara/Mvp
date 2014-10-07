@@ -27,10 +27,10 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
     }
 
     @Override
-    public void onSearchDisplayRequest(List<ResourceManager.Route> routes) {
+    public void onSearchDisplayRequest(ResourceManager.RoutePayback routes) {
         Fragment fragment = new RouteListFragment();
         Bundle b = new Bundle();
-        b.putSerializable(RouteListFragment.ROUTES_FIELD, (ArrayList)routes);
+        b.putSerializable(RouteListFragment.ROUTES_FIELD, routes);
         fragment.setArguments(b);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

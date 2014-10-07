@@ -35,10 +35,10 @@ public class MapFragment extends Fragment {
     private RouteManager routeManager;
     private RouteSearchListener routeSearchListener;
     public MapFragment() {}
-    ResourceManager.ResultListener<List<ResourceManager.Route>> resultCallback;
+    ResourceManager.ResultListener<ResourceManager.RoutePayback> resultCallback;
 
     interface RouteSearchListener {
-        void onSearchDisplayRequest(List<ResourceManager.Route> routes);
+        void onSearchDisplayRequest(ResourceManager.RoutePayback routes);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class MapFragment extends Fragment {
         ResourceManager.getInstance().getBusStops(new ResourceManager.ResultListener<Collection<BusStop>>() {
             @Override
             public void callback(boolean error, final Collection<BusStop> busStops) {
-                if (error) return;
-                getActivity().runOnUiThread(new Runnable() {
+            if (error) return;
+            getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         routeManager.drawBusStops(busStops);
@@ -77,37 +77,38 @@ public class MapFragment extends Fragment {
         routeManager.setBusStopTapListener(new RouteManager.BusStopTapListener() {
             @Override
             public boolean onSingleTap(BusStop busStop) {
-                boolean fromFocused = fromAutoComplete.isFocused();
-                boolean toFocused = toAutoComplete.isFocused();
-                BusStopListener listener = null;
-                if (fromFocused) {
-                    listener = fromListener;
-                } else if (toFocused) {
-                    listener = toListener;
-                }
-                if (listener != null) {
-                    listener.setSelection(busStop);
-                }
-                return false;
+            boolean fromFocused = fromAutoComplete.isFocused();
+            boolean toFocused = toAutoComplete.isFocused();
+            BusStopListener listener = null;
+            if (fromFocused) {
+                listener = fromListener;
+            } else if (toFocused) {
+                listener = toListener;
+            }
+            if (listener != null) {
+                listener.setSelection(busStop);
+            }
+            return false;
             }
         });
 
-        resultCallback = new ResourceManager.ResultListener<List<ResourceManager.Route>>() {
+        resultCallback = new ResourceManager.ResultListener<ResourceManager.RoutePayback>() {
             @Override
-            public void callback(boolean error, final List<ResourceManager.Route> resource) {
-                if (error) {
-                    Toast.makeText(getActivity(),
-                            "Ruta no encontrada",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            routeSearchListener.onSearchDisplayRequest(resource);
-                        }
-                    });
-                }
+            public void callback(boolean error, final ResourceManager.RoutePayback resource) {
+            //TODO: disable wait animation, check activity is still valid
+            if (error) {
+                Toast.makeText(getActivity(),
+                    "Ruta no encontrada",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    routeSearchListener.onSearchDisplayRequest(resource);
+                    }
+                });
+            }
             }
         };
 
@@ -116,16 +117,17 @@ public class MapFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                if (!fromListener.validSelection() ||
-                    !toListener.validSelection()) {
-                    Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
-                    return;
-                }
-                ResourceManager.getInstance().getPath(
-                        fromListener.selection.id,
-                        toListener.selection.id,
-                        resultCallback
-                );
+            //TODO: add wait animation
+            if (!fromListener.validSelection() ||
+                !toListener.validSelection()) {
+                Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
+                return;
+            }
+            ResourceManager.getInstance().getPath(
+                fromListener.selection,
+                toListener.selection,
+                resultCallback
+            );
             }
         });
         setAutoCompleteAdapter(fromAutoComplete, fromListener);
