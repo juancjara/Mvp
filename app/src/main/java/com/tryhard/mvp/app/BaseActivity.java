@@ -3,6 +3,8 @@ package com.tryhard.mvp.app;
 import android.graphics.drawable.ColorDrawable;
 
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.ActionBar;
@@ -19,7 +21,7 @@ import com.tryhard.mvp.app.map.MapActivity;
 
 
 
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends ActionBarActivity  {
     ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,30 @@ public class BaseActivity extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == android.R.id.home) {
+            if (!popFragment()) {
+                NavUtils.navigateUpFromSameTask(this);
+            }
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!popFragment()) {
+            NavUtils.navigateUpFromSameTask(this);
+//          super.onBackPressed();
+        }
+    }
+
+    private boolean popFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+            return true;
+        }
+        return false;
     }
 
 }
