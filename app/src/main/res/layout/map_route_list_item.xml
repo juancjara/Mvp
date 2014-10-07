@@ -4,6 +4,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto"
         >
 
     <TextView
@@ -11,25 +12,49 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/from_label"
-            android:layout_below="@+id/to_label"
+            android:id="@+id/map_item_from_label"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/map_item_bus_label"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/to_label"
-            android:layout_alignParentTop="true"
+            android:id="@+id/map_item_to_label"
+            android:layout_below="@+id/map_item_from_label"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/map_item_from_label"
+            android:layout_alignEnd="@+id/map_item_from_label"/>
+    <FrameLayout
+            android:id="@+id/map_mapview_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/map_item_to_label">
+        <com.mapbox.mapboxsdk.views.MapView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/map_mapview_item"
+                mapbox:centerLat="-12"
+                mapbox:centerLng="-77"
+                mapbox:zoomLevel="13"
+                mapbox:mapid="andreqi.jhklad18"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:id="@+id/map_item_fullscreen"
+                android:layout_gravity="right|top"/>
+    </FrameLayout>
     <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:id="@+id/extra_info"
-            android:layout_below="@+id/from_label">
+            android:layout_below="@+id/map_mapview_layout">
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="0dp"
@@ -47,7 +72,7 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Small Text"
-                        android:id="@+id/textView"
+                        android:id="@+id/walk_time_item_label"
                         android:gravity="center"/>
             </LinearLayout>
 
@@ -68,7 +93,7 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Small Text"
-                        android:id="@+id/textView2"
+                        android:id="@+id/bus_time_item_label"
                         android:gravity="center"/>
             </LinearLayout>
 
@@ -89,8 +114,21 @@
                         android:layout_height="match_parent"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Small Text"
-                        android:id="@+id/textView3"
+                        android:id="@+id/next_bus_item_label"
                         android:gravity="center"/>
             </LinearLayout>
-    </LinearLayout>>
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="301"
+            android:id="@+id/map_item_bus_label"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:layout_above="@+id/map_mapview_layout"/>
+
 </RelativeLayout>

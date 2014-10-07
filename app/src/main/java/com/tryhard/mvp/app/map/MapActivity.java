@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * Created by andreq on 9/26/14.
  */
-public class MapActivity extends BaseActivity implements MapFragment.RouteSearchListener{
+public class MapActivity extends BaseActivity implements MapFragment.RouteSearchListener,
+                                                         RouteListFragment.ItemClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,4 +39,16 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
                 .commit();
     }
 
+    @Override
+    public void onItemFullScreenClick(ResourceManager.Route route) {
+        Fragment fragment = new RouteItemFragment();
+        Bundle b = new Bundle();
+        b.putSerializable(RouteItemFragment.ROUTE_FIELD, route);
+        fragment.setArguments(b);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
