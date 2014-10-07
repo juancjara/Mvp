@@ -106,7 +106,7 @@ public class RouteListFragment extends Fragment {
             TextView nextBusLabel = (TextView)routeView.findViewById(R.id.next_bus_item_label);
             TextView walkTimeLabel = (TextView)routeView.findViewById(R.id.walk_time_item_label);
             TextView busTimeLabel = (TextView)routeView.findViewById(R.id.bus_time_item_label);
-            Button goFullScreen = (Button)routeView.findViewById(R.id.map_item_fullscreen);
+            ImageButton goFullScreen = (ImageButton)routeView.findViewById(R.id.map_item_fullscreen);
 
             nextBusLabel.setText("5:00pm");
             walkTimeLabel.setText("10m");

@@ -2,10 +2,10 @@
 
 <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingBottom="15.0px"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:mapbox="http://schemas.android.com/apk/res-auto"
-        >
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto" >
 
     <TextView
             android:layout_width="wrap_content"
@@ -43,10 +43,10 @@
                 mapbox:zoomLevel="13"
                 mapbox:mapid="andreqi.jhklad18"/>
 
-        <Button
+        <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"
+                android:src="@drawable/ic_action_full_screen"
                 android:id="@+id/map_item_fullscreen"
                 android:layout_gravity="right|top"/>
     </FrameLayout>
@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:id="@+id/extra_info"
+            android:layout_marginTop="10px"
             android:layout_below="@+id/map_mapview_layout">
             <LinearLayout
                     android:orientation="horizontal"
@@ -64,8 +65,11 @@
 
                 <ImageButton
                         android:layout_width="55dp"
-                        android:layout_height="47dp"
-                        android:id="@+id/imageButton"/>
+                        android:layout_height="55dp"
+                        android:id="@+id/imageButton"
+                        android:src="@drawable/ic_person_walking"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -85,8 +89,11 @@
 
                 <ImageButton
                         android:layout_width="55dp"
-                        android:layout_height="47dp"
-                        android:id="@+id/imageButton2"/>
+                        android:layout_height="55dp"
+                        android:id="@+id/imageButton2"
+                        android:src="@drawable/ic_bus"
+                        android:background="@color/transparent"
+                        android:scaleType="fitEnd"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -106,8 +113,11 @@
 
                 <ImageButton
                         android:layout_width="55dp"
-                        android:layout_height="47dp"
-                        android:id="@+id/imageButton3"/>
+                        android:layout_height="55dp"
+                        android:id="@+id/imageButton3"
+                        android:src="@drawable/ic_clock"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"/>
 
                 <TextView
                         android:layout_width="wrap_content"
