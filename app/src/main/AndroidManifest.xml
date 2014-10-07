@@ -20,6 +20,7 @@
         <activity
             android:name=".route.BusStopActivity"
             android:label="@string/title_activity_bus_stop"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
@@ -30,6 +31,7 @@
         <activity
             android:name=".map.MapActivity"
             android:label="@string/title_activity_map"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity" >
         </activity>
     </application>
