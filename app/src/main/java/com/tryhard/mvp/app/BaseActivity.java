@@ -54,8 +54,4 @@ public class BaseActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void setActionBarName(String text) {
-        setActionBarName(text);
-    }
-
 }
