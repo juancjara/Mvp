@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/map_route_header_border" >
 
-    <TextView
+    <ImageView
+            android:id="@+id/ic_exchange_bus_stops"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView"
+            android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView2"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView3"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/textView"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/textView2"
-            android:gravity="center"/>
+            android:src="@drawable/ic_invert" />
+
+    <TextView
+            android:id="@+id/map_route_header_to"
+            android:layout_width="fill_parent"
+            android:layout_height="30dip"
+            android:paddingLeft="8.0px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_toLeftOf="@id/ic_exchange_bus_stops"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+
+            android:text="Fin" />
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/map_route_header_from"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_toRightOf="@id/ic_exchange_bus_stops"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="8.0px"
+            android:layout_above="@id/map_route_header_to"
+            android:layout_alignWithParentIfMissing="true"
+            android:gravity="center_vertical"
+            android:text="Inicio" />
+
 </RelativeLayout>
