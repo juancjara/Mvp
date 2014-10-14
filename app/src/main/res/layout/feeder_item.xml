@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/feeder_item_border"
+    android:layout_marginBottom="10.0dp"
+    android:padding="10dp" >
+    <!--
+
+    -->
+    <TextView
+        android:id="@+id/feeder_item_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+        android:layout_marginLeft="5px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textStyle="bold"
+        android:text="Redacción Perú 21"/>
+    <TextView
+        android:id="@+id/feeder_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/gray"
+        android:layout_toRightOf="@id/feeder_item_author"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10px"
+        android:text="56m"/>
+    <TextView
+        android:id="@+id/feeder_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feeder_item_author"
+        android:textSize="18dp"
+        android:layout_marginLeft="5px"
+        android:text="#CorredorAzul: Cobro de pasajes en buses se iniciará el 15 de octubre "/>
+</RelativeLayout>

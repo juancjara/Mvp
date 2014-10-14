@@ -46,10 +46,12 @@
                 mapbox:mapid="andreqi.jhklad18"/>
 
         <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/ic_action_full_screen"
                 android:id="@+id/map_item_fullscreen"
+                android:background="@color/transparent"
+                android:layout_margin="12dp"
                 android:layout_gravity="right|top"/>
     </FrameLayout>
     <LinearLayout
@@ -66,11 +68,12 @@
                     android:id="@+id/walk_time_item">
 
                 <ImageButton
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:id="@+id/imageButton"
                         android:src="@drawable/ic_person_walking"
                         android:background="@color/transparent"
+                        android:layout_marginRight="10.0px"
                         android:scaleType="fitCenter"/>
 
                 <TextView
@@ -90,11 +93,12 @@
                     android:id="@+id/bus_time_item">
 
                 <ImageButton
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:id="@+id/imageButton2"
                         android:src="@drawable/ic_bus"
                         android:background="@color/transparent"
+                        android:layout_marginRight="15.0px"
                         android:scaleType="fitEnd"/>
 
                 <TextView
@@ -114,11 +118,12 @@
                     android:layout_height="fill_parent">
 
                 <ImageButton
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:id="@+id/imageButton3"
                         android:src="@drawable/ic_clock"
                         android:background="@color/transparent"
+                        android:layout_marginRight="15.0px"
                         android:scaleType="fitCenter"/>
 
                 <TextView
