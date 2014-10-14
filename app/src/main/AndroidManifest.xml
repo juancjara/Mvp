@@ -34,6 +34,12 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity" >
         </activity>
+        <activity
+                android:name=".feed.FeedActivity"
+                android:label="Feed"
+                android:screenOrientation="portrait"
+                android:parentActivityName=".HomeActivity" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

@@ -10,7 +10,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:divider="@color/bg_action_bar"
-            android:dividerHeight="3.0px">
+            android:divider="@color/gray"
+            android:dividerHeight="1.0dp">
     </ListView>
 </LinearLayout>

@@ -2,31 +2,35 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@drawable/map_route_header_border" >
+    android:layout_height="80dp"
+    android:background="@drawable/map_route_header_border">
 
-    <ImageView
+    <TextView
             android:id="@+id/ic_exchange_bus_stops"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="76dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
+            android:text="M"
+            android:textSize="50dp"
+            android:gravity="center"
+            android:paddingLeft="10px"
+            android:paddingRight="10px"
+            android:textColor="@color/white"
+            android:background="@color/dark_blue"
             android:layout_alignParentRight="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_invert" />
+            android:layout_alignParentEnd="true"/>
 
     <TextView
             android:id="@+id/map_route_header_to"
             android:layout_width="fill_parent"
-            android:layout_height="30dip"
+            android:layout_height="wrap_content"
             android:paddingLeft="8.0px"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_toLeftOf="@id/ic_exchange_bus_stops"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:singleLine="true"
-            android:ellipsize="marquee"
-
+            android:layout_marginBottom="10dp"
             android:text="Fin" />
 
     <TextView

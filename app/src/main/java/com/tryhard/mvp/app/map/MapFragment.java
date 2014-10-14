@@ -49,7 +49,7 @@ public class MapFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
+                             ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_fragment, container, false);
         final AutoCompleteTextView fromAutoComplete =
@@ -59,7 +59,7 @@ public class MapFragment extends Fragment {
         MapView mapView = (MapView)v.findViewById(R.id.map_fragment_map_view);
         fromListener = new BusStopListener();
         toListener = new BusStopListener();
-        routeManager = new RouteManager(mapView);
+        routeManager = new RouteManager(mapView, container.getContext());
 
         ResourceManager.getInstance().getBusStops(new ResourceManager.ResultListener<Collection<BusStop>>() {
             @Override

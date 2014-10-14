@@ -1,12 +1,11 @@
 package com.tryhard.mvp.app.map;
 
+import android.content.Context;
 import android.graphics.Point;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay;
-import com.mapbox.mapboxsdk.overlay.ItemizedOverlay;
-import com.mapbox.mapboxsdk.overlay.Marker;
-import com.mapbox.mapboxsdk.overlay.PathOverlay;
+import com.mapbox.mapboxsdk.overlay.*;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.BusStop;
 import com.tryhard.mvp.app.structs.Coordinates;
 import com.tryhard.mvp.app.structs.Path;
@@ -24,9 +23,12 @@ public class RouteManager {
     private HashMap<Marker, BusStop> markerToBusStop;
     private BusStopTapListener busStopTapListener;
     RouteResult prev;
+    Context ctx;
 
-    public RouteManager(MapView mapView) {
+
+    public RouteManager(MapView mapView, Context context) {
         drawer = new MapDrawer(mapView);
+        ctx = context;
         this.markerToBusStop = new HashMap<Marker, BusStop>();
     }
 
@@ -36,6 +38,7 @@ public class RouteManager {
             Coordinates coord = busStop.coord;
             LatLng latLng = new LatLng(coord.latitude, coord.longitude);
             Marker marker = new Marker(busStop.title, "", latLng);
+            marker.setIcon(new Icon(ctx, Icon.Size.SMALL, "bus", "6c6c6c"));
             drawer.drawMarker(marker);
             markerToBusStop.put(marker, busStop);
             busStopMarkers.add(marker);
