@@ -20,6 +20,7 @@ import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.BusStop;
 import com.tryhard.mvp.app.structs.Path;
+import com.tryhard.mvp.app.structs.RoutePayback;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,10 +36,10 @@ public class MapFragment extends Fragment {
     private RouteManager routeManager;
     private RouteSearchListener routeSearchListener;
     public MapFragment() {}
-    ResourceManager.ResultListener<ResourceManager.RoutePayback> resultCallback;
+    ResourceManager.ResultListener<RoutePayback> resultCallback;
 
     interface RouteSearchListener {
-        void onSearchDisplayRequest(ResourceManager.RoutePayback routes);
+        void onSearchDisplayRequest(RoutePayback routes);
     }
 
     @Override
@@ -92,9 +93,9 @@ public class MapFragment extends Fragment {
             }
         });
 
-        resultCallback = new ResourceManager.ResultListener<ResourceManager.RoutePayback>() {
+        resultCallback = new ResourceManager.ResultListener<RoutePayback>() {
             @Override
-            public void callback(boolean error, final ResourceManager.RoutePayback resource) {
+            public void callback(boolean error, final RoutePayback resource) {
             //TODO: disable wait animation, check activity is still valid
             if (error) {
                 Toast.makeText(getActivity(),

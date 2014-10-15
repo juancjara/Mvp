@@ -10,9 +10,7 @@ import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.views.MapView;
-import com.tryhard.mvp.app.structs.BusStop;
-import com.tryhard.mvp.app.structs.Coordinates;
-import com.tryhard.mvp.app.structs.Path;
+import com.tryhard.mvp.app.structs.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,49 +106,7 @@ public class ResourceManager {
         }
     }
 
-    public class RoutePayback implements Serializable {
-        public BusStop from;
-        public BusStop to;
-        public String orientation;
-        public List<Route> routes;
-    }
 
-    public class Route implements Serializable {
-        public int routeId;
-        public long busTime;
-        public long walkTime;
-        public Date nextBus;
-        public BusStop from;
-        public BusStop to;
-        public List<Path> walks;
-        public List<Path> paths;
-
-        private String minutesToString(long minutes) {
-            long hours = minutes / 60;
-            minutes %= 60;
-            String ans = "";
-            if (hours > 0) {
-                ans = hours + "h";
-            }
-            if (minutes > 0) {
-                if (!ans.isEmpty())
-                    ans += " ";
-                ans += minutes + "m";
-            }
-            if (ans.isEmpty()) {
-                ans = "0m";
-            }
-            return ans;
-        }
-
-        public String getWalkTimeStr() {
-            return minutesToString(walkTime);
-        }
-
-        public String getBusTimeStr() {
-            return minutesToString(busTime);
-        }
-    }
 
     public void getPath(final BusStop from, final BusStop to, final ResultListener<RoutePayback> listener) {
         Runnable run = new Runnable() {

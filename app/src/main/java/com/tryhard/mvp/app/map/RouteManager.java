@@ -12,6 +12,7 @@ import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.structs.BusStop;
 import com.tryhard.mvp.app.structs.Coordinates;
 import com.tryhard.mvp.app.structs.Path;
+import com.tryhard.mvp.app.structs.Route;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -103,7 +104,7 @@ public class RouteManager {
         drawer.setZoom(13);
     }
 
-    public void drawRoute(ResourceManager.Route route) {
+    public void drawRoute(Route route) {
         drawBusStop(route.from);
         drawBusStop(route.to);
         for (Path busPath: route.paths) {

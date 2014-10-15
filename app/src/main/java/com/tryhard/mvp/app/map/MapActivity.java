@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import com.tryhard.mvp.app.BaseActivity;
 import com.tryhard.mvp.app.R;
+import com.tryhard.mvp.app.structs.Route;
+import com.tryhard.mvp.app.structs.RoutePayback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
     }
 
     @Override
-    public void onSearchDisplayRequest(ResourceManager.RoutePayback routes) {
+    public void onSearchDisplayRequest(RoutePayback routes) {
         Fragment fragment = new RouteListFragment();
         Bundle b = new Bundle();
         b.putSerializable(RouteListFragment.ROUTES_FIELD, routes);
@@ -40,7 +42,7 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
     }
 
     @Override
-    public void onItemFullScreenClick(ResourceManager.Route route) {
+    public void onItemFullScreenClick(Route route) {
         Fragment fragment = new RouteItemFragment();
         Bundle b = new Bundle();
         b.putSerializable(RouteItemFragment.ROUTE_FIELD, route);

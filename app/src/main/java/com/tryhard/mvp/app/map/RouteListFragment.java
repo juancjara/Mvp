@@ -16,6 +16,8 @@ import android.widget.*;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.BusStop;
+import com.tryhard.mvp.app.structs.Route;
+import com.tryhard.mvp.app.structs.RoutePayback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,11 +28,11 @@ import java.util.List;
  */
 public class RouteListFragment extends Fragment {
     static String ROUTES_FIELD = "ROUTES";
-    private ResourceManager.RoutePayback routes;
+    private RoutePayback routes;
     private ItemClickListener itemClickListener;
 
     public interface ItemClickListener {
-        public void onItemFullScreenClick(ResourceManager.Route route);
+        public void onItemFullScreenClick(Route route);
     }
 
     public RouteListFragment() {}
@@ -50,7 +52,7 @@ public class RouteListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        routes = (ResourceManager.RoutePayback)args.get(ROUTES_FIELD);
+        routes = (RoutePayback)args.get(ROUTES_FIELD);
     }
 
     @Override
@@ -70,13 +72,13 @@ public class RouteListFragment extends Fragment {
         return v;
     }
 
-    class MapRouteListAdapter extends ArrayAdapter<ResourceManager.Route> {
-        private ResourceManager.RoutePayback payback;
+    class MapRouteListAdapter extends ArrayAdapter<Route> {
+        private RoutePayback payback;
         private int resource;
         private LayoutInflater inflater;
         public MapRouteListAdapter(Context context,
                                    int resource,
-                                   ResourceManager.RoutePayback routes) {
+                                   RoutePayback routes) {
             super(context, resource);
             this.payback = routes;
             this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -89,13 +91,13 @@ public class RouteListFragment extends Fragment {
         }
 
         @Override
-        public ResourceManager.Route getItem(int position) {
+        public Route getItem(int position) {
             return payback.routes.get(position);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final ResourceManager.Route route = getItem(position);
+            final Route route = getItem(position);
             View routeView = convertView;
             if (convertView == null) {
                 routeView = inflater.inflate(this.resource, parent, false);
