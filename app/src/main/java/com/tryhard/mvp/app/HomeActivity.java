@@ -126,7 +126,7 @@ public class HomeActivity extends ActionBarActivity {
         // If the nav drawer is open, hide action items related to the content
         // view
         boolean drawerOpen = drawerLayout.isDrawerOpen(navDrawer);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
