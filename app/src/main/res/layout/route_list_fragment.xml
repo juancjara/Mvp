@@ -7,14 +7,8 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp">
 
-    <TextView
-        android:id="@+id/title_route_grid_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:text="@string/title_route_grid_view"/>
-
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginTop="5dp"
         android:id="@+id/route_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
