@@ -29,9 +29,9 @@ public class BaseActivity extends ActionBarActivity  {
 
         actionBar = getSupportActionBar();
 
-        actionBar.setBackgroundDrawable(
+        /*actionBar.setBackgroundDrawable(
                 new ColorDrawable(getResources().getColor(R.color.bg_action_bar)));
-
+        */
         setContentView(R.layout.base_layout);
     }
 

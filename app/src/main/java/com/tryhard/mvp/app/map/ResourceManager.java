@@ -27,12 +27,19 @@ import java.util.*;
 public class ResourceManager {
     HashMap<Integer, BusStop> busStopMap = new HashMap<Integer, BusStop>();
     HashMap<Integer, Path> pathMap = new HashMap<Integer, Path>();
+    Integer[] bus301ida;
+    Integer[] bus301vuelta;
+    Integer[] bus302ida;
+    Integer[] bus302vuelta;
+    Integer[] bus303ida;
+    Integer[] bus303vuelta;
     Handler handler;
     boolean loaded = false;
     static ResourceManager instance;
     static String GIST_URL =
      "https://gist.githubusercontent.com/andreqi/02440611d23020fa8bba/raw/3f2451d45fdd4e547ca2e865f6c664e0c31f5f4b/sit";
     private ResourceManager() {
+        loadRoutesBusStops();
         HandlerThread thread = new HandlerThread("ResourceManager");
         thread.start();
         handler = new Handler(thread.getLooper());
@@ -57,6 +64,15 @@ public class ResourceManager {
         return tokens;
     }
 
+    private Integer[] tokenize(String s) {
+        StringTokenizer tokenizer = new StringTokenizer(s.trim().replace(',', ' '));
+        Integer [] tokens = new Integer[tokenizer.countTokens()];
+        for (int i = 0; i < tokens.length; i++) {
+            tokens[i] = Integer.parseInt(tokenizer.nextToken().trim());
+        }
+        return tokens;
+    }
+
     public interface ResultListener<T> {
         void callback(boolean error, T resource);
     }
@@ -70,6 +86,15 @@ public class ResourceManager {
             }
         };
         handler.post(run);
+    }
+
+    public void loadRoutesBusStops() {
+        bus301ida = tokenize("1,2,3,4,5,6,7,8,9,11,13,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,39,40,41,42");
+        bus301vuelta = tokenize("100,101,102,103,104,105,106,107,108,109,110,111,112,113,115,116,117,118,119,120,121,123,124,126,128,130,131,132,133,134,135,136,137");
+        bus302ida = tokenize("1,2,3,4,5,6,7,8,9,11,13,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,39");
+        bus302vuelta = tokenize("103,104,105,106,107,108,109,110,111,112,113,115,116,117,118,119,120,121,123,124,126,128,130,131,132,133,134,135,136,137");
+        bus303ida = tokenize("8,10,12,14,17,19,22,24,26,28,29,32,36,38");
+        bus303vuelta = tokenize("104,108,111,112,114,116,118,120,121,122,124,125,127,129,131");
     }
 
     public void load() {
