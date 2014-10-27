@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import com.tryhard.mvp.app.feed.FeedActivity;
 import com.tryhard.mvp.app.map.MapActivity;
 import com.tryhard.mvp.app.route.BusStopActivity;
 
@@ -148,6 +149,9 @@ public class HomeActivity extends ActionBarActivity {
         Intent intent = new Intent(this, MapActivity.class);
         if (position == 1) {
             intent = new Intent(this, BusStopActivity.class);
+        }
+        if (position == 2) {
+            intent = new Intent(this, FeedActivity.class);
         }
         startActivity(intent);
     }

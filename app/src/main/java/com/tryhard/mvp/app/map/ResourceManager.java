@@ -115,7 +115,7 @@ public class ResourceManager {
                 load();
                 // mock algorithm
                 RoutePayback payback = new RoutePayback();
-                payback.orientation = "A Miraflores";
+                payback.orientation = "M";
                 payback.from = from;
                 payback.to = from;
                 List<Route> route = new ArrayList<Route>();

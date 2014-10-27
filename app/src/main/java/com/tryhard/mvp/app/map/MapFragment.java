@@ -46,11 +46,14 @@ public class MapFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         routeSearchListener = (MapActivity) activity;
+        fromListener = new BusStopListener();
+        toListener = new BusStopListener();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
+                             ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_fragment, container, false);
         final AutoCompleteTextView fromAutoComplete =
@@ -58,14 +61,13 @@ public class MapFragment extends Fragment {
         final AutoCompleteTextView toAutoComplete =
                 (AutoCompleteTextView) v.findViewById(R.id.map_fragment_to_auto_complete);
         MapView mapView = (MapView)v.findViewById(R.id.map_fragment_map_view);
-        fromListener = new BusStopListener();
-        toListener = new BusStopListener();
         routeManager = new RouteManager(mapView);
 
         ResourceManager.getInstance().getBusStops(new ResourceManager.ResultListener<Collection<BusStop>>() {
             @Override
             public void callback(boolean error, final Collection<BusStop> busStops) {
             if (error) return;
+            if (getActivity() == null) return;
             getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -89,7 +91,7 @@ public class MapFragment extends Fragment {
             if (listener != null) {
                 listener.setSelection(busStop);
             }
-            return false;
+            return true;
             }
         });
 

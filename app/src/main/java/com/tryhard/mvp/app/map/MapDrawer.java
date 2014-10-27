@@ -1,5 +1,6 @@
 package com.tryhard.mvp.app.map;
 
+import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.Overlay;
@@ -16,6 +17,12 @@ public class MapDrawer {
 
     public MapDrawer(MapView view) {
         this.view = view;
+    }
+
+    public void disableTouch() {
+        this.view.setClickable(false);
+        this.view.setFocusable(false);
+        this.view.setFocusableInTouchMode(false);
     }
 
     public MapView getMapView() {
@@ -48,5 +55,9 @@ public class MapDrawer {
 
     public void setZoom(float zoom) {
         view.setZoom(zoom);
+    }
+
+    public void setZoomBBox(BoundingBox bBox) {
+        view.zoomToBoundingBox(bBox, true);
     }
 }

@@ -2,9 +2,7 @@ package com.tryhard.mvp.app.structs;
 
 import com.tryhard.mvp.app.map.ResourceManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by andreq on 10/9/14.
@@ -40,14 +38,41 @@ public class PathFinder {
 
     public RoutePayback getPaths(BusStop from, BusStop to) {
         RoutePayback payback = new RoutePayback();
+        payback.from = from;
+        payback.to = to;
+        payback.routes = new ArrayList<Route>();
         for (Map.Entry<String, ArrayList<BusStop>> route : busStops.entrySet()) {
             ArrayList<BusStop> pathBusStops = route.getValue();
+            ArrayList<Path> paths = routes.get(route.getKey());
             int idxFrom = findNearest(pathBusStops, from);
             int idxTo = findNearest(pathBusStops, to);
             if (idxFrom < idxTo) {
-
+                BusStop start = pathBusStops.get(idxFrom);
+                BusStop end = pathBusStops.get(idxTo);
+                Route r = new Route();
+                r.paths = new ArrayList<Path>();
+                for (int idx = idxFrom; idx < idxTo; idx++) {
+                    r.paths.add(paths.get(idx));
+                }
+                r.busTime = getBusTime(r.paths);
+                r.walkTime = getWalkTime(from, start) + getWalkTime(to, end);
+                r.nextBus = getNextBus(route.getKey());
+                payback.routes.add(r);
             }
         }
+        payback.orientation = "M";
         return payback;
+    }
+
+    private long getWalkTime(BusStop from, BusStop start) {
+        return 0;
+    }
+
+    private Date getNextBus(String key) {
+        return new Date();
+    }
+
+    private long getBusTime(List<Path> paths) {
+        return 0;
     }
 }

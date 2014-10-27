@@ -2,13 +2,13 @@ package com.tryhard.mvp.app.map;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.content.Context;
 import android.graphics.Point;
+import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay;
-import com.mapbox.mapboxsdk.overlay.ItemizedOverlay;
-import com.mapbox.mapboxsdk.overlay.Marker;
-import com.mapbox.mapboxsdk.overlay.PathOverlay;
+import com.mapbox.mapboxsdk.overlay.*;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.BusStop;
 import com.tryhard.mvp.app.structs.Coordinates;
 import com.tryhard.mvp.app.structs.Path;
@@ -23,14 +23,20 @@ import java.util.List;
  * Created by andreq on 9/26/14.
  */
 public class RouteManager {
+    private static double PADDING = 0.005;
     private MapDrawer drawer;
     private HashMap<Marker, BusStop> markerToBusStop;
     private BusStopTapListener busStopTapListener;
+    private Icon busIcon;
     RouteResult prev;
+    Context ctx;
+
 
     public RouteManager(MapView mapView) {
         drawer = new MapDrawer(mapView);
+        ctx = mapView.getContext();
         this.markerToBusStop = new HashMap<Marker, BusStop>();
+        busIcon = null;
     }
 
     public void drawBusStops(Collection<BusStop> busStops) {
@@ -75,7 +81,10 @@ public class RouteManager {
     private Marker getBusStopMarker(BusStop busStop) {
         Coordinates coord = busStop.coord;
         LatLng latLng = new LatLng(coord.latitude, coord.longitude);
-        return new Marker(busStop.title, "", latLng);
+        Marker marker = new Marker(busStop.title, "", latLng);
+        busIcon = new Icon(ctx, Icon.Size.SMALL, "bus", "6c6c6c");
+        marker.setIcon(busIcon);
+        return marker;
     }
 
     public void drawBusStop(BusStop busStop) {
@@ -100,8 +109,20 @@ public class RouteManager {
     }
 
     public void centerMap() {
-        drawer.setCenter(new LatLng(-12.075, -77.067));
+        drawer.setCenter(new LatLng(-12.075, -77.045));
         drawer.setZoom(13);
+    }
+
+    private BoundingBox getBoundingBox(Route route) {
+       LatLng from = route.from.getLatLng();
+       LatLng to = route.to.getLatLng();
+       BoundingBox box = new BoundingBox(
+            Math.max(from.getLatitude(), to.getLatitude()) + PADDING,
+            Math.max(from.getLongitude(), to.getLongitude()),
+            Math.min(from.getLatitude(), to.getLatitude()),
+            Math.min(from.getLongitude(), to.getLongitude())
+       );
+       return box;
     }
 
     public void drawRoute(Route route) {
@@ -113,6 +134,7 @@ public class RouteManager {
         for (Path walkPath: route.walks) {
             drawWalkPath(walkPath);
         }
+        drawer.setZoomBBox(getBoundingBox(route));
         drawer.refresh();
     }
 

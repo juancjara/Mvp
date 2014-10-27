@@ -2,16 +2,17 @@
 
 <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingBottom="15.0px"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:mapbox="http://schemas.android.com/apk/res-auto"
-        >
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto" >
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
+            android:layout_marginLeft="3.0px"
             android:id="@+id/map_item_from_label"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
+            android:layout_marginLeft="3.0px"
             android:id="@+id/map_item_to_label"
             android:layout_below="@+id/map_item_from_label"
             android:layout_alignParentLeft="true"
@@ -43,17 +45,20 @@
                 mapbox:zoomLevel="13"
                 mapbox:mapid="andreqi.jhklad18"/>
 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
+        <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_action_full_screen"
                 android:id="@+id/map_item_fullscreen"
+                android:background="@color/transparent"
+                android:layout_margin="12dp"
                 android:layout_gravity="right|top"/>
     </FrameLayout>
     <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:id="@+id/extra_info"
+            android:layout_marginTop="10px"
             android:layout_below="@+id/map_mapview_layout">
             <LinearLayout
                     android:orientation="horizontal"
@@ -63,9 +68,13 @@
                     android:id="@+id/walk_time_item">
 
                 <ImageButton
-                        android:layout_width="55dp"
-                        android:layout_height="47dp"
-                        android:id="@+id/imageButton"/>
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/imageButton"
+                        android:src="@drawable/ic_person_walking"
+                        android:background="@color/transparent"
+                        android:layout_marginRight="10.0px"
+                        android:scaleType="fitCenter"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -84,9 +93,13 @@
                     android:id="@+id/bus_time_item">
 
                 <ImageButton
-                        android:layout_width="55dp"
-                        android:layout_height="47dp"
-                        android:id="@+id/imageButton2"/>
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/imageButton2"
+                        android:src="@drawable/ic_bus"
+                        android:background="@color/transparent"
+                        android:layout_marginRight="15.0px"
+                        android:scaleType="fitEnd"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -105,9 +118,13 @@
                     android:layout_height="fill_parent">
 
                 <ImageButton
-                        android:layout_width="55dp"
-                        android:layout_height="47dp"
-                        android:id="@+id/imageButton3"/>
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/imageButton3"
+                        android:src="@drawable/ic_clock"
+                        android:background="@color/transparent"
+                        android:layout_marginRight="15.0px"
+                        android:scaleType="fitCenter"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -124,10 +141,14 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="301"
+            android:textColor="@color/white"
+            android:background="@color/bg_action_bar"
             android:id="@+id/map_item_bus_label"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:paddingLeft="20.0px"
+            android:paddingRight="10.0px"
             android:gravity="center"
             android:layout_above="@+id/map_mapview_layout"/>
 

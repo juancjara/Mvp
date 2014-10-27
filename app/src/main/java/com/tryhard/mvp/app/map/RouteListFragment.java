@@ -66,8 +66,8 @@ public class RouteListFragment extends Fragment {
                                         R.layout.map_route_list_item,
                                         routes);
         routeList.setAdapter(adapter);
-        setText(v, R.id.route_bus_stop_start, routes.from.title);
-        setText(v, R.id.route_bus_stop_end, routes.to.title);
+        setText(v, R.id.map_route_header_from, routes.from.title);
+        setText(v, R.id.map_route_header_to, routes.to.title);
         setText(v, R.id.route_orientation, routes.orientation);
         return v;
     }
@@ -109,8 +109,8 @@ public class RouteListFragment extends Fragment {
             setText(routeView, R.id.walk_time_item_label, route.getBusTimeStr());
             setText(routeView, R.id.bus_time_item_label, route.getBusTimeStr());
 
-            Button goFullScreen = (Button)routeView.findViewById(R.id.map_item_fullscreen);
             MapView mapView = (MapView)routeView.findViewById(R.id.map_mapview_item);
+            ImageButton goFullScreen = (ImageButton)routeView.findViewById(R.id.map_item_fullscreen);
 
             RouteManager routeManager = new RouteManager(mapView);
             routeManager.drawRoute(route);

@@ -9,7 +9,7 @@
     <string name="title_route_grid_view">Seleccione una ruta</string>
     <string name="title_activity_bus_stop">Paraderos</string>
     <string name="title_activity_base_layout">ActivityLayout</string>
-    <string name="title_activity_map">Map</string>
+    <string name="title_activity_map">Seleccione Paraderos</string>
 
     <!-- map strings -->
     <string name="map_fragment_from_label">De</string>

@@ -61,10 +61,6 @@ public class BaseActivity extends ActionBarActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void setActionBarName(String text) {
-        setActionBarName(text);
-    }
-
     @Override
     public void onBackPressed() {
         if (!popFragment()) {
@@ -81,4 +77,5 @@ public class BaseActivity extends ActionBarActivity  {
         }
         return false;
     }
+
 }
