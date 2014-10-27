@@ -29,9 +29,9 @@ public class BaseActivity extends ActionBarActivity  {
 
         actionBar = getSupportActionBar();
 
-        actionBar.setBackgroundDrawable(
+        /*actionBar.setBackgroundDrawable(
                 new ColorDrawable(getResources().getColor(R.color.bg_action_bar)));
-
+        */
         setContentView(R.layout.base_layout);
     }
 
@@ -41,6 +41,7 @@ public class BaseActivity extends ActionBarActivity  {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return true;
     }
 

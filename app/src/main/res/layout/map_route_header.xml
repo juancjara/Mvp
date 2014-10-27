@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/map_route_header_border">
+                android:layout_width="fill_parent"
+                android:layout_height="80sp"
+                android:background="@drawable/map_route_header_border">
+
 
     <TextView
             android:id="@+id/route_orientation"
@@ -11,7 +12,7 @@
             android:layout_height="76dp"
             android:layout_alignParentTop="true"
             android:text="M"
-            android:textSize="50dp"
+            android:textSize="50sp"
             android:gravity="center"
             android:paddingLeft="10px"
             android:paddingRight="10px"
@@ -20,31 +21,55 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
 
+    <ImageButton
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:id="@+id/marker_to"
+            android:background="@color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_marker"
+            android:scaleType="fitStart"/>
+
+
     <TextView
             android:id="@+id/map_route_header_to"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="8.0px"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_toLeftOf="@id/route_orientation"
+            android:layout_toRightOf="@+id/marker_to"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:singleLine="true"
             android:layout_marginBottom="10dp"
-            android:text="Fin" />
+            android:text="Fin"
+            android:layout_alignRight="@+id/map_route_header_from"
+            android:layout_alignEnd="@+id/map_route_header_from"/>
+
+    <ImageButton
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:id="@+id/marker_from"
+            android:background="@color/transparent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_marker"
+            android:layout_above="@id/marker_to"
+            android:scaleType="fitStart"
+            android:layout_marginTop="10px"/>
 
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/map_route_header_from"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_toRightOf="@id/route_orientation"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@+id/marker_from"
             android:layout_alignParentTop="true"
             android:paddingLeft="8.0px"
             android:layout_above="@id/map_route_header_to"
-            android:layout_alignWithParentIfMissing="true"
             android:gravity="center_vertical"
-            android:text="Inicio" />
+            android:text="Inicio"
+            android:layout_toLeftOf="@+id/route_orientation"/>
+
 
 </RelativeLayout>

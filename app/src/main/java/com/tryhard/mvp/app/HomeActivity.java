@@ -40,8 +40,8 @@ public class HomeActivity extends ActionBarActivity {
         mTitle = getTitle();
         actionBar = getSupportActionBar();
 
-        actionBar.setBackgroundDrawable(
-            new ColorDrawable(getResources().getColor(R.color.bg_action_bar)));
+        /*actionBar.setBackgroundDrawable(
+            new ColorDrawable(getResources().getColor(R.color.bg_action_bar)));*/
         this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.navDrawer = (RelativeLayout)findViewById(R.id.nav_drawer);
         this.navList = (ListView) findViewById(R.id.nav_list);
@@ -126,7 +126,7 @@ public class HomeActivity extends ActionBarActivity {
         // If the nav drawer is open, hide action items related to the content
         // view
         boolean drawerOpen = drawerLayout.isDrawerOpen(navDrawer);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

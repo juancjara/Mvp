@@ -3,6 +3,5 @@
     <string-array name="nav_options">
         <item>Caminos</item>
         <item>Paraderos</item>
-        <item>Feed</item>
     </string-array>
 </resources>
