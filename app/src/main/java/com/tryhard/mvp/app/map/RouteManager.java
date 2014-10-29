@@ -114,8 +114,8 @@ public class RouteManager {
     }
 
     private BoundingBox getBoundingBox(Route route) {
-       LatLng from = route.from.getLatLng();
-       LatLng to = route.to.getLatLng();
+       LatLng from = route.walkStart.getLatLng();
+       LatLng to = route.walkEnd.getLatLng();
        BoundingBox box = new BoundingBox(
             Math.max(from.getLatitude(), to.getLatitude()) + PADDING,
             Math.max(from.getLongitude(), to.getLongitude()),
@@ -126,11 +126,18 @@ public class RouteManager {
     }
 
     public void drawRoute(Route route) {
-        drawBusStop(route.from);
-        drawBusStop(route.to);
+        drawBusStop(route.walkStart);
+        drawBusStop(route.walkEnd);
+        if (route.hasWalkToBusStart()) {
+            drawBusStop(route.busStart);
+        }
+        if (route.hasWalkToDestination()) {
+            drawBusStop(route.busEnd);
+        }
         for (Path busPath: route.paths) {
             drawBusPath(busPath);
         }
+
         for (Path walkPath: route.walks) {
             drawWalkPath(walkPath);
         }

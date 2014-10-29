@@ -46,6 +46,13 @@
                 mapbox:mapid="andreqi.jhklad18"/>
 
         <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView"
+                android:background="@color/transparent"
+                android:alpha="0"/>
+
+        <ImageButton
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/ic_action_full_screen"

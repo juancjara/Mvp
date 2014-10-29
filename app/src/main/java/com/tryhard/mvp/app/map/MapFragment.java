@@ -229,7 +229,6 @@ public class MapFragment extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             BusStop selected = (BusStop)parent.getItemAtPosition(position);
             setSelection(selected);
-            Toast.makeText(view.getContext(), selected.title, Toast.LENGTH_SHORT).show();
         }
 
         @Override

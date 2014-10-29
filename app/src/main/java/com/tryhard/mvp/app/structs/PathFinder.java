@@ -9,16 +9,19 @@ import java.util.*;
  */
 public class PathFinder {
     private static int NOT_FOUND = -1;
-    private HashMap<String, ArrayList<Path>> routes;
-    private HashMap<String, ArrayList<BusStop>> busStops;
+    private HashMap<String, SitRoute> routes;
+    private HashMap<Integer, Path> nextPath;
+
     public PathFinder() {
-        this.routes = new HashMap<String, ArrayList<Path>>();
-        this.busStops = new HashMap<String, ArrayList<BusStop>>();
+        this.routes = new HashMap<String, SitRoute>();
     }
 
-    public void addRoute(String key, ArrayList<Path> route, ArrayList<BusStop> busStop) {
+    public void addRoute(String key, SitRoute route) {
         routes.put(key, route);
-        busStops.put(key, busStop);
+    }
+
+    public void setPaths(HashMap<Integer, Path> nextPath) {
+        this.nextPath = nextPath;
     }
 
     int findNearest(ArrayList<BusStop> busStop, BusStop bus) {
@@ -41,30 +44,57 @@ public class PathFinder {
         payback.from = from;
         payback.to = to;
         payback.routes = new ArrayList<Route>();
-        for (Map.Entry<String, ArrayList<BusStop>> route : busStops.entrySet()) {
-            ArrayList<BusStop> pathBusStops = route.getValue();
-            ArrayList<Path> paths = routes.get(route.getKey());
-            int idxFrom = findNearest(pathBusStops, from);
-            int idxTo = findNearest(pathBusStops, to);
+        for (Map.Entry<String, SitRoute> route : routes.entrySet()) {
+            SitRoute sitRoute = route.getValue();
+            ArrayList<BusStop> busStops = sitRoute.busStops;
+            ArrayList<Path> paths = sitRoute.paths;
+            int idxFrom = findNearest(busStops, from);
+            int idxTo = findNearest(busStops, to);
             if (idxFrom < idxTo) {
-                BusStop start = pathBusStops.get(idxFrom);
-                BusStop end = pathBusStops.get(idxTo);
+                BusStop start = busStops.get(idxFrom);
+                BusStop end = busStops.get(idxTo);
                 Route r = new Route();
+                r.walkStart = from;
+                r.walkEnd = to;
+                r.busStart = start;
+                r.busEnd = end;
                 r.paths = new ArrayList<Path>();
-                for (int idx = idxFrom; idx < idxTo; idx++) {
-                    r.paths.add(paths.get(idx));
-                }
+                r.walks = new ArrayList<Path>();
+                acumulatePaths(start, end, r.paths);
+                acumulateWalk(from, start, r.walks);
+                acumulateWalk(end, to, r.walks);
                 r.busTime = getBusTime(r.paths);
                 r.walkTime = getWalkTime(from, start) + getWalkTime(to, end);
                 r.nextBus = getNextBus(route.getKey());
+                r.busLabel = route.getKey();
                 payback.routes.add(r);
+                payback.orientation = sitRoute.orientation;
             }
         }
-        payback.orientation = "M";
+
         return payback;
     }
 
-    private long getWalkTime(BusStop from, BusStop start) {
+    private void acumulateWalk(BusStop from, BusStop to, List<Path> acum) {
+        if(from.id != to.id) {
+            Coordinates[] coords = new Coordinates[2];
+            coords[0] = from.coord;
+            coords[1] = to.coord;
+            Path path = new Path(-1, -1, coords);
+            acum.add(path);
+        }
+    }
+
+    private void acumulatePaths(BusStop from, BusStop to, List<Path> acum) {
+        Integer idx = from.id;
+        while (idx != to.id) {
+            Path path = nextPath.get(idx);
+            acum.add(path);
+            idx = path.toId;
+        }
+    }
+
+    private long getWalkTime(BusStop from, BusStop to) {
         return 0;
     }
 

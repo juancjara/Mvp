@@ -9,10 +9,13 @@ public class Route implements Serializable {
     public long busTime;
     public long walkTime;
     public Date nextBus;
-    public BusStop from;
-    public BusStop to;
-    public List<Path> walks;
+    public BusStop busStart;
+    public BusStop busEnd;
+    public BusStop walkStart;
+    public BusStop walkEnd;
     public List<Path> paths;
+    public List<Path> walks;
+    public String busLabel;
 
     private String minutesToString(long minutes) {
         long hours = minutes / 60;
@@ -38,5 +41,13 @@ public class Route implements Serializable {
 
     public String getBusTimeStr() {
         return minutesToString(busTime);
+    }
+
+    public boolean hasWalkToDestination() {
+        return walkEnd.id != busEnd.id;
+    }
+
+    public boolean hasWalkToBusStart() {
+        return walkStart.id != busStart.id;
     }
 }

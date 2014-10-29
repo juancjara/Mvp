@@ -102,9 +102,9 @@ public class RouteListFragment extends Fragment {
             if (convertView == null) {
                 routeView = inflater.inflate(this.resource, parent, false);
             }
-
-            setText(routeView, R.id.map_item_from_label, route.from.title);
-            setText(routeView, R.id.map_item_to_label, route.to.title);
+            setText(routeView, R.id.map_item_bus_label, route.busLabel);
+            setText(routeView, R.id.map_item_from_label, route.walkStart.title);
+            setText(routeView, R.id.map_item_to_label, route.walkEnd.title);
             setText(routeView, R.id.next_bus_item_label, new SimpleDateFormat("HH:mm a").format(route.nextBus));
             setText(routeView, R.id.walk_time_item_label, route.getBusTimeStr());
             setText(routeView, R.id.bus_time_item_label, route.getBusTimeStr());
