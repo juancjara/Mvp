@@ -6,22 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:mapbox="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/ic_exchange_bus_stops"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_invert"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/frameLayout"
-        android:layout_alignWithParentIfMissing="false"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/ic_exchange_bus_stops"
         android:id="@+id/relative_layout_search_data">
         <TextView
                 android:id="@+id/map_fragment_from_text_view"

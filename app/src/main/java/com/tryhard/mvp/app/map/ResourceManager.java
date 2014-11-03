@@ -89,15 +89,13 @@ public class ResourceManager {
     }
 
     public void loadRoutesBusStops() {
-        bus301ida = tokenize("1,2,3,4,5,6,7,8,9,11,13,15,16,18,19,20,21,22,23,24,"+
-                             "25,27,28,29,30,31,32,33,34,35,36,37,39,40,41,42");
-        bus301vuelta = tokenize("100,101,102,103,104,105,106,107,108,109,110,111,"+
-                                "112,113,115,116,117,118,119,120,121,123,124,126,128,"+
-                                "130,131,132,133,134,135,136,137");
-        bus302ida = tokenize("1,2,3,4,5,6,7,8,9,11,13,15,16,18,19,20,21,22,23,"+
-                             "24,25,27,28,29,30,31,32,33,34,35,36,37,39");
-        bus302vuelta = tokenize("103,104,105,106,107,108,109,110,111,112,113,115,116,"+
-                                "117,118,119,120,121,123,124,126,128,130,131,132,133,134,135,136,137");
+        bus301ida = tokenize("1,2,3,4,5,6,7,8,9,11,13,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,"+
+                             "39,40,41,42,43,44,45,46,47,48,49");
+        bus301vuelta = tokenize("92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,115,"+
+                                "116,117,118,119,120,121,123,124,126,128,130,131,132,133,134,135,136,137");
+        bus302ida = tokenize("1,2,3,4,5,6,7,8,9,11,13,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,38");
+        bus302vuelta = tokenize("103,104,105,106,107,108,109,110,111,112,113,115,116,117,118,119,120,121,123,124,126,"+
+                                "128,130,131,132,133,134,135,136,137");
         bus303ida = tokenize("8,10,12,14,17,19,22,24,26,28,29,32,36,38");
         bus303vuelta = tokenize("104,108,111,112,114,116,118,120,121,122,124,125,127,129,131");
 
@@ -176,35 +174,8 @@ public class ResourceManager {
         Runnable run = new Runnable() {
             @Override
             public void run() {
-                load();
-                // mock algorithm
-                /*
-                RoutePayback payback = new RoutePayback();
-                payback.orientation = "M";
-                payback.from = from;
-                payback.to = from;
-                List<Route> route = new ArrayList<Route>();
-                for (int i = 0; i < 3; i++) {
-                    Route res = new Route();
-                    res.routeId = 301 + i;
-                    res.busTime = 60 * i + 10;
-                    res.walkTime = 10 + i;
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(new Date());
-                    calendar.add(Calendar.HOUR, i);
-                    res.nextBus = calendar.getTime();
-                    res.paths = new ArrayList<Path>();
-                    res.from = from;
-                    res.to = to;
-                    res.walks = new ArrayList<Path>();
-                    res.walks.add(pathMap.get(30));
-                    for (int j = 0; j < 3; j++) {
-                        res.paths.add(pathMap.get(10 + j + i * 3));
-                    }
-                    route.add(res);
-                }
-                payback.routes = route; */
-                listener.callback(false, pathFinder.getPaths(from, to));
+            load();
+            listener.callback(false, pathFinder.getPaths(from, to));
             }
         };
         handler.post(run);
