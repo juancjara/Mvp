@@ -103,7 +103,7 @@ public class RouteManager {
     public void drawBusPath(Path bus) {
         PathOverlay overlay = bus.getPathOverlay();
         Paint paint = overlay.getPaint();
-        paint.setColor(Color.YELLOW);
+        paint.setColor(Color.rgb(51, 153, 255));
         paint.setStrokeWidth(12);
         drawer.drawOverlay(overlay);
     }

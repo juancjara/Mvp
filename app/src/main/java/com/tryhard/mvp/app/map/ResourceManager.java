@@ -102,20 +102,20 @@ public class ResourceManager {
         bus303vuelta = tokenize("104,108,111,112,114,116,118,120,121,122,124,125,127,129,131");
 
         pathFinder = new PathFinder();
-        pathFinder.addRoute("301 Ida", toSitRoute(bus301ida));
-        pathFinder.addRoute("301 Vuelta", toSitRoute(bus301vuelta));
+        pathFinder.addRoute("301 Ida", toSitRoute(bus301ida, "M"));
+        pathFinder.addRoute("301 Vuelta", toSitRoute(bus301vuelta, "R"));
 
-        pathFinder.addRoute("302 Ida", toSitRoute(bus302ida));
-        pathFinder.addRoute("302 Vuelta", toSitRoute(bus302vuelta));
+        pathFinder.addRoute("302 Ida", toSitRoute(bus302ida, "M"));
+        pathFinder.addRoute("302 Vuelta", toSitRoute(bus302vuelta, "R"));
 
-        pathFinder.addRoute("303 Ida", toSitRoute(bus303ida));
-        pathFinder.addRoute("303 Vuelta", toSitRoute(bus303vuelta));
+        pathFinder.addRoute("303 Ida", toSitRoute(bus303ida, "M"));
+        pathFinder.addRoute("303 Vuelta", toSitRoute(bus303vuelta, "R"));
         pathFinder.setPaths(pathMap);
     }
 
-    private SitRoute toSitRoute(Integer[] route) {
+    private SitRoute toSitRoute(Integer[] route, String orientation) {
         SitRoute sitRoute = new SitRoute();
-        sitRoute.orientation = "M";
+        sitRoute.orientation = orientation;
         ArrayList<Path> paths = new ArrayList<Path>();
         ArrayList<BusStop> busStops = new ArrayList<BusStop>();
         for (int i = 0, len = route.length; i < len; i++) {

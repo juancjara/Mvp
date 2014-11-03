@@ -1,5 +1,9 @@
 package com.tryhard.mvp.app.structs;
 
+import android.util.Log;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.Overlay;
+import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.tryhard.mvp.app.map.ResourceManager;
 
 import java.util.*;
@@ -9,6 +13,8 @@ import java.util.*;
  */
 public class PathFinder {
     private static int NOT_FOUND = -1;
+    private static double WALK_SPEED = 0.1944;
+    private static double BUS_SPEED = 6.33;
     private HashMap<String, SitRoute> routes;
     private HashMap<Integer, Path> nextPath;
 
@@ -65,8 +71,9 @@ public class PathFinder {
                 acumulateWalk(end, to, r.walks);
                 r.busTime = getBusTime(r.paths);
                 r.walkTime = getWalkTime(from, start) + getWalkTime(to, end);
-                r.nextBus = getNextBus(route.getKey());
+                r.nextBus = getNextBus(sitRoute);
                 r.busLabel = route.getKey();
+
                 payback.routes.add(r);
                 payback.orientation = sitRoute.orientation;
             }
@@ -95,14 +102,29 @@ public class PathFinder {
     }
 
     private long getWalkTime(BusStop from, BusStop to) {
-        return 0;
+        return (long)(from.distanceTo(to) / WALK_SPEED);
     }
 
-    private Date getNextBus(String key) {
+    private Date getNextBus(SitRoute route) {
         return new Date();
     }
 
     private long getBusTime(List<Path> paths) {
-        return 0;
+        double ans = 0;
+        for (Path p: paths) {
+            List<LatLng> overlay = p.getPoints();
+            double length = getLength(overlay);
+            ans += length;
+        }
+        Log.d("BusLen", ""+ans);
+        return (long)(ans / BUS_SPEED);
+    }
+
+    private double getLength(List<LatLng> overlay) {
+        double length = 0;
+        for (int i = 0, len = overlay.size(); i < len - 1; i++) {
+            length += overlay.get(i).distanceTo(overlay.get(i+1));
+        }
+        return length;
     }
 }

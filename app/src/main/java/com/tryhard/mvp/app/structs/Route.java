@@ -17,7 +17,8 @@ public class Route implements Serializable {
     public List<Path> walks;
     public String busLabel;
 
-    private String minutesToString(long minutes) {
+    private String secondsToString(long seconds) {
+        long minutes = seconds / 60;
         long hours = minutes / 60;
         minutes %= 60;
         String ans = "";
@@ -36,11 +37,11 @@ public class Route implements Serializable {
     }
 
     public String getWalkTimeStr() {
-        return minutesToString(walkTime);
+        return secondsToString(walkTime);
     }
 
     public String getBusTimeStr() {
-        return minutesToString(busTime);
+        return secondsToString(busTime);
     }
 
     public boolean hasWalkToDestination() {

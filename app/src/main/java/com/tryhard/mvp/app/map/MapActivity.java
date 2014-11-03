@@ -1,8 +1,12 @@
 package com.tryhard.mvp.app.map;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.widget.Toast;
 import com.tryhard.mvp.app.BaseActivity;
 import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.Route;
@@ -18,6 +22,9 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
                                                          RouteListFragment.ItemClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, "Activa la conexion a internet", Toast.LENGTH_LONG).show();
+        }
         super.onCreate(savedInstanceState);
         findViewById(R.id.content_frame);
         Fragment fragment = new MapFragment();
@@ -26,6 +33,12 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
