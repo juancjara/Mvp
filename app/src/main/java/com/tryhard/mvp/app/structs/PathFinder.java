@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class PathFinder {
     private static int NOT_FOUND = -1;
-    private static double WALK_SPEED = 0.633;
+    private static double WALK_SPEED = 0.433;
     private static double BUS_SPEED = 6.33;
     private HashMap<String, SitRoute> routes;
     private HashMap<Integer, Path> nextPath;
@@ -70,7 +70,7 @@ public class PathFinder {
                 acumulateWalk(from, start, r.walks);
                 acumulateWalk(end, to, r.walks);
                 long busLen = getBusLen(r.paths);
-                long walkLen = getWalkLen(from, start) + getWalkLen(to, end);
+                long walkLen = getBusLen(r.walks);
                 Log.d("BusLen", "" + busLen);
                 Log.d("WalkLen", "" + walkLen);
                 r.busTime = (long) (busLen / BUS_SPEED);
@@ -88,7 +88,14 @@ public class PathFinder {
     }
 
     private void acumulateWalk(BusStop from, BusStop to, List<Path> acum) {
-        if(from.id != to.id) {
+        List<Path> list = new ArrayList<Path>();
+        acumulatePaths(from, to, list);
+        if (list.isEmpty()) {
+            acumulatePaths(to, from, list);
+        }
+        if (!list.isEmpty()) {
+            acum.addAll(list);
+        } else if (from.id != to.id) {
             Coordinates[] coords = new Coordinates[2];
             coords[0] = from.coord;
             coords[1] = to.coord;
@@ -101,13 +108,17 @@ public class PathFinder {
         Integer idx = from.id;
         while (idx != to.id) {
             Path path = nextPath.get(idx);
+            if (path == null) {
+                acum.clear();
+                return;
+            }
             acum.add(path);
             idx = path.toId;
         }
     }
 
     private long getWalkLen(BusStop from, BusStop to) {
-        return (long)(from.distanceTo(to) / WALK_SPEED);
+        return (long)(from.distanceTo(to));
     }
 
     private Date getNextBus(SitRoute route) {
