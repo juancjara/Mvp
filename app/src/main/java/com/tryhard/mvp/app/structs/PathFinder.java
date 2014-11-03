@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class PathFinder {
     private static int NOT_FOUND = -1;
-    private static double WALK_SPEED = 0.1944;
+    private static double WALK_SPEED = 0.633;
     private static double BUS_SPEED = 6.33;
     private HashMap<String, SitRoute> routes;
     private HashMap<Integer, Path> nextPath;
@@ -69,8 +69,13 @@ public class PathFinder {
                 acumulatePaths(start, end, r.paths);
                 acumulateWalk(from, start, r.walks);
                 acumulateWalk(end, to, r.walks);
-                r.busTime = getBusTime(r.paths);
-                r.walkTime = getWalkTime(from, start) + getWalkTime(to, end);
+                long busLen = getBusLen(r.paths);
+                long walkLen = getWalkLen(from, start) + getWalkLen(to, end);
+                Log.d("BusLen", "" + busLen);
+                Log.d("WalkLen", "" + walkLen);
+                r.busTime = (long) (busLen / BUS_SPEED);
+                r.walkTime = (long) (walkLen / WALK_SPEED);
+                r.totalTime = r.busTime + r.walkTime;
                 r.nextBus = getNextBus(sitRoute);
                 r.busLabel = route.getKey();
 
@@ -78,7 +83,7 @@ public class PathFinder {
                 payback.orientation = sitRoute.orientation;
             }
         }
-
+        Collections.sort(payback.routes);
         return payback;
     }
 
@@ -101,7 +106,7 @@ public class PathFinder {
         }
     }
 
-    private long getWalkTime(BusStop from, BusStop to) {
+    private long getWalkLen(BusStop from, BusStop to) {
         return (long)(from.distanceTo(to) / WALK_SPEED);
     }
 
@@ -109,15 +114,14 @@ public class PathFinder {
         return new Date();
     }
 
-    private long getBusTime(List<Path> paths) {
+    private long getBusLen(List<Path> paths) {
         double ans = 0;
         for (Path p: paths) {
             List<LatLng> overlay = p.getPoints();
             double length = getLength(overlay);
             ans += length;
         }
-        Log.d("BusLen", ""+ans);
-        return (long)(ans / BUS_SPEED);
+        return (long)(ans);
     }
 
     private double getLength(List<LatLng> overlay) {

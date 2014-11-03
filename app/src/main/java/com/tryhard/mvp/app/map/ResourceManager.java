@@ -37,7 +37,7 @@ public class ResourceManager {
     boolean loaded = false;
     static ResourceManager instance;
     static String GIST_URL =
-    "https://gist.githubusercontent.com/andreqi/02440611d23020fa8bba/raw/18749b62b98ccc20a5a010035240c64923f074f3/sit";
+    "https://gist.githubusercontent.com/andreqi/02440611d23020fa8bba/raw/028483c58dc4bc8d431a220d57c2b7f90591c797/sit";
 
     private ResourceManager() {
         HandlerThread thread = new HandlerThread("ResourceManager");

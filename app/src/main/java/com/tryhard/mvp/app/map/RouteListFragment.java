@@ -106,7 +106,7 @@ public class RouteListFragment extends Fragment {
             setText(routeView, R.id.map_item_from_label, route.walkStart.title);
             setText(routeView, R.id.map_item_to_label, route.walkEnd.title);
             setText(routeView, R.id.next_bus_item_label, new SimpleDateFormat("HH:mm a").format(route.nextBus));
-            setText(routeView, R.id.walk_time_item_label, route.getBusTimeStr());
+            setText(routeView, R.id.walk_time_item_label, route.getWalkTimeStr());
             setText(routeView, R.id.bus_time_item_label, route.getBusTimeStr());
 
             MapView mapView = (MapView)routeView.findViewById(R.id.map_mapview_item);

@@ -28,7 +28,6 @@ public class RouteManager {
     private HashMap<Marker, BusStop> markerToBusStop;
     private BusStopTapListener busStopTapListener;
     private Icon busIcon;
-    RouteResult prev;
     Context ctx;
 
 
@@ -48,24 +47,24 @@ public class RouteManager {
             busStopMarkers.add(marker);
         }
         ItemizedIconOverlay iconOverlay = new ItemizedIconOverlay(
-                drawer.getMapView().getContext(),
-                busStopMarkers,
-                new ItemizedIconOverlay.OnItemGestureListener<Marker>() {
-                    @Override
-                    public boolean onItemSingleTapUp(int i, Marker marker) {
-                        BusStop busStop = markerToBusStop.get(marker);
-                        BusStopTapListener listener = getBusStopTapListener();
-                        if (listener != null) {
-                            return listener.onSingleTap(busStop);
-                        }
-                        return false;
+            drawer.getMapView().getContext(),
+            busStopMarkers,
+            new ItemizedIconOverlay.OnItemGestureListener<Marker>() {
+                @Override
+                public boolean onItemSingleTapUp(int i, Marker marker) {
+                    BusStop busStop = markerToBusStop.get(marker);
+                    BusStopTapListener listener = getBusStopTapListener();
+                    if (listener != null) {
+                        return listener.onSingleTap(busStop);
                     }
+                    return false;
+                }
 
-                    @Override
-                    public boolean onItemLongPress(int i, Marker marker) {
-                        return false;
-                    }
-                });
+                @Override
+                public boolean onItemLongPress(int i, Marker marker) {
+                    return false;
+                }
+            });
         drawer.drawOverlay(iconOverlay);
         drawer.refresh();
     }
@@ -95,7 +94,7 @@ public class RouteManager {
     public void drawWalkPath(Path walk) {
         PathOverlay overlay = walk.getPathOverlay();
         Paint paint = overlay.getPaint();
-        paint.setColor(Color.GREEN);
+        paint.setColor(Color.rgb(39, 174, 96));
         paint.setStrokeWidth(12);
         drawer.drawOverlay(overlay);
     }

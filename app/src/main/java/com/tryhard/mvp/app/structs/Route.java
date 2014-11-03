@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Route implements Serializable {
+public class Route implements Serializable, Comparable<Route>{
     public int routeId;
     public long busTime;
     public long walkTime;
@@ -16,6 +16,7 @@ public class Route implements Serializable {
     public List<Path> paths;
     public List<Path> walks;
     public String busLabel;
+    public long totalTime;
 
     private String secondsToString(long seconds) {
         long minutes = seconds / 60;
@@ -50,5 +51,17 @@ public class Route implements Serializable {
 
     public boolean hasWalkToBusStart() {
         return walkStart.id != busStart.id;
+    }
+
+    @Override
+    public int compareTo(Route another) {
+        if (totalTime == another.totalTime) {
+            return 0;
+        }
+        if (totalTime < another.totalTime) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 }
