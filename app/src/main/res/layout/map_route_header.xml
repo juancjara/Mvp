@@ -44,7 +44,9 @@
             android:layout_marginBottom="10dp"
             android:text="Fin"
             android:layout_alignRight="@+id/map_route_header_from"
-            android:layout_alignEnd="@+id/map_route_header_from"/>
+            android:layout_alignEnd="@+id/map_route_header_from"
+            android:lines="1"
+            android:ellipsize="end"/>
 
     <ImageButton
             android:layout_width="30sp"
@@ -69,7 +71,9 @@
             android:layout_above="@id/map_route_header_to"
             android:gravity="center_vertical"
             android:text="Inicio"
-            android:layout_toLeftOf="@+id/route_orientation"/>
+            android:layout_toLeftOf="@+id/route_orientation"
+            android:lines="1"
+            android:ellipsize="end"/>
 
 
 </RelativeLayout>

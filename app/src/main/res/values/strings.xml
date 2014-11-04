@@ -10,9 +10,11 @@
     <string name="title_activity_base_layout">ActivityLayout</string>
 
     <string name="title_activity_map">Seleccione Paraderos</string>
-
-    <string name="side_bar_text">Comunicar al correo juanc.jara@pucp.pe si existe algún error en los paraderos.</string>
-    <string name="side_bar_detail">La municipalidad ni protransporte nos permitió validar los paraderos.</string>
+    <string name="side_bar_text">
+        La información de la sección Paraderos fue validada viajando por la ruta del bus azul
+        (agradecimientos a Jairo Palomino). Esperamos algún contacto de la municipalidad o
+        Protransporte para mejorar la aplicación.
+    </string>
     <!-- map strings -->
     <string name="map_fragment_from_label">De</string>
     <string name="map_fragment_auto_complete_hint">Seleccione paradero</string>

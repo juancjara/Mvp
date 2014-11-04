@@ -36,8 +36,7 @@ public class ResourceManager {
     PathFinder pathFinder;
     boolean loaded = false;
     static ResourceManager instance;
-    static String GIST_URL =
-    "https://gist.githubusercontent.com/andreqi/02440611d23020fa8bba/raw/028483c58dc4bc8d431a220d57c2b7f90591c797/sit";
+    static String GIST_URL = "http://104.131.28.224:1235/";
 
     private ResourceManager() {
         HandlerThread thread = new HandlerThread("ResourceManager");
@@ -190,6 +189,7 @@ public class ResourceManager {
                 ans.add(bs);
             }
         }
+        Collections.sort(ans);
         return ans;
     }
 }

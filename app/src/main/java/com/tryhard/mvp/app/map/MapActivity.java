@@ -23,7 +23,7 @@ public class MapActivity extends BaseActivity implements MapFragment.RouteSearch
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (!isNetworkAvailable()) {
-            Toast.makeText(this, "Activa la conexion a internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Active la conexión a internet", Toast.LENGTH_LONG).show();
         }
         super.onCreate(savedInstanceState);
         findViewById(R.id.content_frame);

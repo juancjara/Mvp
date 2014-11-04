@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by andreq on 9/20/14.
  */
-public class BusStop implements Serializable{
+public class BusStop implements Serializable, Comparable<BusStop>{
     public int id;
     public Coordinates coord;
     public String title;
@@ -29,5 +29,10 @@ public class BusStop implements Serializable{
 
     public double distanceTo(BusStop curBus) {
         return getLatLng().distanceTo(curBus.getLatLng());
+    }
+
+    @Override
+    public int compareTo(BusStop another) {
+        return this.title.compareTo(another.title);
     }
 }

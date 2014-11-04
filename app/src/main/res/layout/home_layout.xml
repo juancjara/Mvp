@@ -2,7 +2,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
     <!-- The main content view -->
 
@@ -28,18 +28,15 @@
             android:dividerHeight="0dp"/>
         <TextView
                 android:layout_below="@id/nav_list"
-                android:layout_width="wrap_content"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/side_bar_text"
-                android:id="@+id/side_bar_text"/>
-
-        <TextView
-                android:layout_below="@+id/side_bar_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/side_bar_detail"/>
+                android:id="@+id/side_bar_text"
+                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="20dp"
+                android:paddingBottom="20dp"/>
 
     </RelativeLayout>
 

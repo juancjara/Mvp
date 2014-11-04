@@ -28,6 +28,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    signingConfigs {
+        release {
+            storeFile file("juanchi.jks")
+            storePassword "xuxeadorgg"
+            keyAlias "ggwp"
+            keyPassword "xuxeadorgg"
+        }
+    }
 }
 
 dependencies {
