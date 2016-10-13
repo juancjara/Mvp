@@ -20,6 +20,7 @@ import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.BusStop;
 import com.tryhard.mvp.app.structs.Path;
+import com.tryhard.mvp.app.structs.RoutePayback;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,16 +36,19 @@ public class MapFragment extends Fragment {
     private RouteManager routeManager;
     private RouteSearchListener routeSearchListener;
     public MapFragment() {}
-    ResourceManager.ResultListener<List<ResourceManager.Route>> resultCallback;
+    ResourceManager.ResultListener<RoutePayback> resultCallback;
 
     interface RouteSearchListener {
-        void onSearchDisplayRequest(List<ResourceManager.Route> routes);
+        void onSearchDisplayRequest(RoutePayback routes);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         routeSearchListener = (MapActivity) activity;
+        fromListener = new BusStopListener();
+        toListener = new BusStopListener();
+
     }
 
     @Override
@@ -57,15 +61,14 @@ public class MapFragment extends Fragment {
         final AutoCompleteTextView toAutoComplete =
                 (AutoCompleteTextView) v.findViewById(R.id.map_fragment_to_auto_complete);
         MapView mapView = (MapView)v.findViewById(R.id.map_fragment_map_view);
-        fromListener = new BusStopListener();
-        toListener = new BusStopListener();
-        routeManager = new RouteManager(mapView, container.getContext());
+        routeManager = new RouteManager(mapView);
 
         ResourceManager.getInstance().getBusStops(new ResourceManager.ResultListener<Collection<BusStop>>() {
             @Override
             public void callback(boolean error, final Collection<BusStop> busStops) {
-                if (error) return;
-                getActivity().runOnUiThread(new Runnable() {
+            if (error) return;
+            if (getActivity() == null) return;
+            getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         routeManager.drawBusStops(busStops);
@@ -77,37 +80,38 @@ public class MapFragment extends Fragment {
         routeManager.setBusStopTapListener(new RouteManager.BusStopTapListener() {
             @Override
             public boolean onSingleTap(BusStop busStop) {
-                boolean fromFocused = fromAutoComplete.isFocused();
-                boolean toFocused = toAutoComplete.isFocused();
-                BusStopListener listener = null;
-                if (fromFocused) {
-                    listener = fromListener;
-                } else if (toFocused) {
-                    listener = toListener;
-                }
-                if (listener != null) {
-                    listener.setSelection(busStop);
-                }
-                return false;
+            boolean fromFocused = fromAutoComplete.isFocused();
+            boolean toFocused = toAutoComplete.isFocused();
+            BusStopListener listener = null;
+            if (fromFocused) {
+                listener = fromListener;
+            } else if (toFocused) {
+                listener = toListener;
+            }
+            if (listener != null) {
+                listener.setSelection(busStop);
+            }
+            return true;
             }
         });
 
-        resultCallback = new ResourceManager.ResultListener<List<ResourceManager.Route>>() {
+        resultCallback = new ResourceManager.ResultListener<RoutePayback>() {
             @Override
-            public void callback(boolean error, final List<ResourceManager.Route> resource) {
-                if (error) {
-                    Toast.makeText(getActivity(),
-                            "Ruta no encontrada",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            routeSearchListener.onSearchDisplayRequest(resource);
-                        }
-                    });
-                }
+            public void callback(boolean error, final RoutePayback resource) {
+            //TODO: disable wait animation, check activity is still valid
+            if (error) {
+                Toast.makeText(getActivity(),
+                    "Ruta no encontrada",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    routeSearchListener.onSearchDisplayRequest(resource);
+                    }
+                });
+            }
             }
         };
 
@@ -116,16 +120,17 @@ public class MapFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                if (!fromListener.validSelection() ||
-                    !toListener.validSelection()) {
-                    Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
-                    return;
-                }
-                ResourceManager.getInstance().getPath(
-                        fromListener.selection.id,
-                        toListener.selection.id,
-                        resultCallback
-                );
+            //TODO: add wait animation
+            if (!fromListener.validSelection() ||
+                !toListener.validSelection()) {
+                Toast.makeText(getActivity(), "Seleccione los paraderos", Toast.LENGTH_SHORT);
+                return;
+            }
+            ResourceManager.getInstance().getPath(
+                fromListener.selection,
+                toListener.selection,
+                resultCallback
+            );
             }
         });
         setAutoCompleteAdapter(fromAutoComplete, fromListener);
@@ -224,7 +229,6 @@ public class MapFragment extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             BusStop selected = (BusStop)parent.getItemAtPosition(position);
             setSelection(selected);
-            Toast.makeText(view.getContext(), selected.title, Toast.LENGTH_SHORT).show();
         }
 
         @Override

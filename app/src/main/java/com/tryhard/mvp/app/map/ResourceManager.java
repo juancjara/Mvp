@@ -2,6 +2,7 @@ package com.tryhard.mvp.app.map;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import com.cocoahero.android.geojson.Feature;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.cocoahero.android.geojson.Geometry;
@@ -10,9 +11,7 @@ import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.views.MapView;
-import com.tryhard.mvp.app.structs.BusStop;
-import com.tryhard.mvp.app.structs.Coordinates;
-import com.tryhard.mvp.app.structs.Path;
+import com.tryhard.mvp.app.structs.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,12 +33,12 @@ public class ResourceManager {
     Integer[] bus303ida;
     Integer[] bus303vuelta;
     Handler handler;
+    PathFinder pathFinder;
     boolean loaded = false;
     static ResourceManager instance;
-    static String GIST_URL =
-     "https://gist.githubusercontent.com/andreqi/02440611d23020fa8bba/raw/3f2451d45fdd4e547ca2e865f6c664e0c31f5f4b/sit";
+    static String GIST_URL = "http://104.131.28.224:1235/";
+
     private ResourceManager() {
-        loadRoutesBusStops();
         HandlerThread thread = new HandlerThread("ResourceManager");
         thread.start();
         handler = new Handler(thread.getLooper());
@@ -98,6 +97,33 @@ public class ResourceManager {
                                 "128,130,131,132,133,134,135,136,137");
         bus303ida = tokenize("8,10,12,14,17,19,22,24,26,28,29,32,36,38");
         bus303vuelta = tokenize("104,108,111,112,114,116,118,120,121,122,124,125,127,129,131");
+
+        pathFinder = new PathFinder();
+        pathFinder.addRoute("301 Ida", toSitRoute(bus301ida, "M"));
+        pathFinder.addRoute("301 Vuelta", toSitRoute(bus301vuelta, "R"));
+
+        pathFinder.addRoute("302 Ida", toSitRoute(bus302ida, "M"));
+        pathFinder.addRoute("302 Vuelta", toSitRoute(bus302vuelta, "R"));
+
+        pathFinder.addRoute("303 Ida", toSitRoute(bus303ida, "M"));
+        pathFinder.addRoute("303 Vuelta", toSitRoute(bus303vuelta, "R"));
+        pathFinder.setPaths(pathMap);
+    }
+
+    private SitRoute toSitRoute(Integer[] route, String orientation) {
+        SitRoute sitRoute = new SitRoute();
+        sitRoute.orientation = orientation;
+        ArrayList<Path> paths = new ArrayList<Path>();
+        ArrayList<BusStop> busStops = new ArrayList<BusStop>();
+        for (int i = 0, len = route.length; i < len; i++) {
+            Integer id = route[i];
+            busStops.add(busStopMap.get(id));
+            if (!busStopMap.containsKey(id))
+                Log.d("Path", "not found bus stop" + id);
+        }
+        sitRoute.busStops = busStops;
+        sitRoute.paths = paths;
+        return sitRoute;
     }
 
     public void load() {
@@ -116,13 +142,17 @@ public class ResourceManager {
                     for (int i = 0; i < coords.length(); i++) {
                         path[i] = new Coordinates((JSONArray) coords.get(i));
                     }
+                    if (description.isEmpty()) {
+                        continue;
+                    }
                     String[] tokens = tokenize(description, ',');
-                    Path p = new Path(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), path);
+                    String[] nextTokens = tokenize(tokens[1], '|');
+                    Path p = new Path(Integer.parseInt(tokens[0]), Integer.parseInt(nextTokens[0]), path);
                     pathMap.put(p.fromId, p);
                 } else if (g.getType().compareTo("Point") == 0) {
                     Coordinates c = new Coordinates(coords);
                     String[] tokens = tokenize(description, '|');
-                    String title = props.getString("title").toLowerCase();
+                    String title = props.getString("title");
                     BusStop busStop = new BusStop(Integer.parseInt(tokens[0]), c, title);
                     busStopMap.put(busStop.id, busStop);
                 }
@@ -134,30 +164,17 @@ public class ResourceManager {
             e.printStackTrace();
             return;
         }
+        loadRoutesBusStops();
     }
 
-    public class Route implements Serializable {
-        public int routeId;
-        public List<Path> paths;
-    }
 
-    public void getPath(final int from, final int to, final ResultListener<List<Route>> listener) {
+
+    public void getPath(final BusStop from, final BusStop to, final ResultListener<RoutePayback> listener) {
         Runnable run = new Runnable() {
             @Override
             public void run() {
-                load();
-                // mock algorithm
-                List<Route> route = new ArrayList<Route>();
-                for (int i = 0; i < 3; i++) {
-                    Route res = new Route();
-                    res.routeId = 301 + i;
-                    res.paths = new ArrayList<Path>();
-                    for (int j = 0; j < 3; j++) {
-                        res.paths.add(pathMap.get(j + i * 3));
-                    }
-                    route.add(res);
-                }
-                listener.callback(false, route);
+            load();
+            listener.callback(false, pathFinder.getPaths(from, to));
             }
         };
         handler.post(run);
@@ -165,12 +182,14 @@ public class ResourceManager {
 
     public List<BusStop> getBusStopMatches(String value) {
         load();
+        String lower = value.toLowerCase();
         List<BusStop> ans = new ArrayList<BusStop>();
         for (BusStop bs : busStopMap.values()) {
-            if (bs.title.indexOf(value) != -1) {
+            if (bs.title.toLowerCase().indexOf(lower) != -1) {
                 ans.add(bs);
             }
         }
+        Collections.sort(ans);
         return ans;
     }
 }

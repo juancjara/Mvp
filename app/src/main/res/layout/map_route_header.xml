@@ -7,7 +7,7 @@
 
 
     <TextView
-            android:id="@+id/ic_exchange_bus_stops"
+            android:id="@+id/route_orientation"
             android:layout_width="wrap_content"
             android:layout_height="76dp"
             android:layout_alignParentTop="true"
@@ -39,11 +39,14 @@
             android:layout_height="wrap_content"
             android:paddingLeft="8.0px"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_toLeftOf="@id/ic_exchange_bus_stops"
             android:layout_toRightOf="@+id/marker_to"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
-            android:text="Fin"/>
+            android:text="Fin"
+            android:layout_alignRight="@+id/map_route_header_from"
+            android:layout_alignEnd="@+id/map_route_header_from"
+            android:lines="1"
+            android:ellipsize="end"/>
 
     <ImageButton
             android:layout_width="30sp"
@@ -63,12 +66,14 @@
             android:id="@+id/map_route_header_from"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_toRightOf="@+id/marker_from"
-            android:layout_toLeftOf="@id/ic_exchange_bus_stops"
             android:layout_alignParentTop="true"
             android:paddingLeft="8.0px"
             android:layout_above="@id/map_route_header_to"
             android:gravity="center_vertical"
-            android:text="Inicio"/>
+            android:text="Inicio"
+            android:layout_toLeftOf="@+id/route_orientation"
+            android:lines="1"
+            android:ellipsize="end"/>
 
 
 </RelativeLayout>

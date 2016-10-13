@@ -16,7 +16,11 @@ import android.widget.*;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.tryhard.mvp.app.R;
 import com.tryhard.mvp.app.structs.BusStop;
+import com.tryhard.mvp.app.structs.Route;
+import com.tryhard.mvp.app.structs.RoutePayback;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -24,14 +28,19 @@ import java.util.List;
  */
 public class RouteListFragment extends Fragment {
     static String ROUTES_FIELD = "ROUTES";
-    private List<ResourceManager.Route> routes;
+    private RoutePayback routes;
     private ItemClickListener itemClickListener;
 
     public interface ItemClickListener {
-        public void onItemFullScreenClick(ResourceManager.Route route);
+        public void onItemFullScreenClick(Route route);
     }
 
     public RouteListFragment() {}
+
+    private void setText(View parent, int id, String text) {
+        TextView view = (TextView) parent.findViewById(id);
+        view.setText(text);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -42,7 +51,8 @@ public class RouteListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        routes = (List<ResourceManager.Route>)getArguments().get(ROUTES_FIELD);
+        Bundle args = getArguments();
+        routes = (RoutePayback)args.get(ROUTES_FIELD);
     }
 
     @Override
@@ -51,66 +61,59 @@ public class RouteListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_route_list_fragment, container, false);
         ListView routeList = (ListView)v.findViewById(R.id.map_route_list);
-        View view = inflater.inflate(R.layout.mapbox_map, container, false);
-        MapView mapView = (MapView)view.findViewById(R.id.mapbox_map_id);
-        mapView.setDrawingCacheEnabled(true);
-
-        routeList.setAdapter(
-                new MapRouteListAdapter(getActivity(), R.layout.map_route_list_item, routes, mapView, getResources()));
+        MapRouteListAdapter adapter =
+                new MapRouteListAdapter(getActivity(),
+                                        R.layout.map_route_list_item,
+                                        routes);
+        routeList.setAdapter(adapter);
+        setText(v, R.id.map_route_header_from, routes.from.title);
+        setText(v, R.id.map_route_header_to, routes.to.title);
+        setText(v, R.id.route_orientation, routes.orientation);
         return v;
     }
 
-
-    class MapRouteListAdapter extends ArrayAdapter<ResourceManager.Route> {
-        private List<ResourceManager.Route> routes;
+    class MapRouteListAdapter extends ArrayAdapter<Route> {
+        private RoutePayback payback;
         private int resource;
         private LayoutInflater inflater;
-        private MapView mapCacheView;
-        private Resources res;
         public MapRouteListAdapter(Context context,
                                    int resource,
-                                   List<ResourceManager.Route> routes,
-                                   MapView mapCacheView,
-                                   Resources res) {
+                                   RoutePayback routes) {
             super(context, resource);
-            this.res = res;
-            this.routes = routes;
+            this.payback = routes;
             this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.resource = resource;
-            this.mapCacheView = mapCacheView;
         }
 
         @Override
         public int getCount() {
-            return routes.size();
+            return payback.routes.size();
         }
 
         @Override
-        public ResourceManager.Route getItem(int position) {
-            return routes.get(position);
+        public Route getItem(int position) {
+            return payback.routes.get(position);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final ResourceManager.Route route = getItem(position);
+            final Route route = getItem(position);
             View routeView = convertView;
             if (convertView == null) {
                 routeView = inflater.inflate(this.resource, parent, false);
             }
-            TextView fromLabel = (TextView)routeView.findViewById(R.id.map_item_from_label);
-            TextView toLabel = (TextView)routeView.findViewById(R.id.map_item_to_label);
+            setText(routeView, R.id.map_item_bus_label, route.busLabel);
+            setText(routeView, R.id.map_item_from_label, route.walkStart.title);
+            setText(routeView, R.id.map_item_to_label, route.walkEnd.title);
+            setText(routeView, R.id.next_bus_item_label, "prox.");
+            setText(routeView, R.id.walk_time_item_label, route.getWalkTimeStr());
+            setText(routeView, R.id.bus_time_item_label, route.getBusTimeStr());
 
-            fromLabel.setText("Casa juanchi");
-            toLabel.setText("Por el tim");
-
-            TextView nextBusLabel = (TextView)routeView.findViewById(R.id.next_bus_item_label);
-            TextView walkTimeLabel = (TextView)routeView.findViewById(R.id.walk_time_item_label);
-            TextView busTimeLabel = (TextView)routeView.findViewById(R.id.bus_time_item_label);
+            MapView mapView = (MapView)routeView.findViewById(R.id.map_mapview_item);
             ImageButton goFullScreen = (ImageButton)routeView.findViewById(R.id.map_item_fullscreen);
 
-            nextBusLabel.setText("5:00pm");
-            walkTimeLabel.setText("10m");
-            busTimeLabel.setText("2h 20m");
+            RouteManager routeManager = new RouteManager(mapView);
+            routeManager.drawRoute(route);
             goFullScreen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
